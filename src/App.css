@@ -1,0 +1,21 @@
+/* App.css */
+/* Estilos globales */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Estilos para el contenedor principal */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ocupa al menos el 100% de la altura de la ventana */
+}
+
+/* Estilos para el contenido principal */
+.main-content {
+  flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+  margin-bottom: 40px; /* Espacio entre el contenido y el footer */
+}

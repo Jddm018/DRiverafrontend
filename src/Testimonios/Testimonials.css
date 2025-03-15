@@ -1,0 +1,48 @@
+/* Estilos generales de la sección de Testimonios */
+.testimonials {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #ffffff; /* Fondo gris claro */
+}
+
+.testimonials h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Contenedor de las tarjetas de testimonios */
+.testimonials-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre las tarjetas */
+}
+
+/* Estilos para cada tarjeta de testimonio */
+.testimonial-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 45%; /* Ancho de cada tarjeta */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px); /* Efecto de elevación al hacer hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al hacer hover */
+}
+
+.testimonial-card p {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #555;
+}
+
+.testimonial-card .author {
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: right;
+    color: #3498db; /* Color azul para el autor */
+}

@@ -1,0 +1,6 @@
+/* Estilos para la página de inicio */
+.home {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* Espacio entre las secciones */
+}
