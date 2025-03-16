@@ -12,8 +12,8 @@ const Footer = () => {
                     <h3>Enlaces rápidos</h3>
                     <ul>
                         <li><a href="/Inicio">Inicio</a></li>
-                        <li><a href="/products">Productos</a></li>
-                        <li><a href="/purchase_history">Historial de Compras</a></li>
+                        <li><a href="/productos">Productos</a></li>
+                        <li><a href="/historial">Historial de Compras</a></li>
                         <li><a href="/login">Iniciar Sesión</a></li>
                     </ul>
                 </div>

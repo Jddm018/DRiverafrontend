@@ -89,7 +89,6 @@ const Navbar = () => {
                         </Link>
                     </li>
                 )}
-
                 {/* Mostrar "Panel de Administrador" si es admin */}
                 {isAdmin && (
                     <li>

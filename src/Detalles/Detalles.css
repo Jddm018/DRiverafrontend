@@ -1,0 +1,218 @@
+/* Estilos generales */
+.product-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: #fffefe;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    opacity: 0; /* Inicialmente invisible para la animación */
+    animation: fadeIn 0.8s ease-in-out forwards; /* Animación de entrada */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Desplazamiento hacia arriba */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    animation: slideIn 0.8s ease-in-out; /* Animación de deslizamiento */
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px); /* Desplazamiento desde la izquierda */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Contenedor de la imagen */
+.product-image-container {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 1rem;
+    margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.product-image-container:hover {
+    transform: scale(1.05); /* Efecto de escala al hacer hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+.product-image-container:hover .product-image {
+    transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
+/* Información del producto */
+.product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-left: 1rem;
+    animation: fadeInText 1s ease-in-out; /* Animación de texto */
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Desplazamiento hacia arriba */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-title {
+    font-size: 2rem;
+    color: #333;
+    margin: 0;
+}
+
+.product-category {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+.free-shipping {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.inventory-info {
+    font-size: 1rem;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Descripción del producto */
+.product-description {
+    margin-top: 2rem;
+    width: 100%;
+    animation: fadeInText 1.2s ease-in-out; /* Animación de texto */
+}
+
+.product-description h2 {
+    font-size: 1.5rem;
+    color: #000000;
+    margin-bottom: 1rem;
+}
+
+.product-description p {
+    font-size: 1rem;
+    color: #000000;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+    text-align: justify;
+}
+
+/* Botón de agregar al carrito */
+.add-to-cart-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 300px;
+    align-self: center;
+    animation: fadeInButton 1.5s ease-in-out; /* Animación del botón */
+}
+
+@keyframes fadeInButton {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Desplazamiento hacia arriba */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.add-to-cart-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Efecto de escala al hacer hover */
+}
+
+.add-to-cart-button:active {
+    background-color: #004080;
+    transform: scale(0.95); /* Efecto de escala al hacer clic */
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .product-details {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .product-image-container {
+        width: 40%;
+        max-width: 400px;
+        height: 300px;
+        margin: 0;
+    }
+
+    .product-info {
+        width: 55%;
+        padding-left: 2rem;
+    }
+
+    .product-description {
+        width: 100%;
+    }
+}

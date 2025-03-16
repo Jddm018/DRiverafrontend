@@ -2,10 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './Navbar/Navbar.jsx'; 
 import Home from './Home/Home.jsx';
-//import Products from './pages/Products'; // Importa la página de productos
+import Categorias from './Categorias/Categorias.jsx'; 
+import Productos from './Productos/Productos.jsx';
+import Detalles from './Detalles/Detalles.jsx';
 //import Cart from './pages/Cart'; // Importa la página del carrito
 //import Admin from './pages/Admin'; // Importa la página de administrador
-//import PurchaseHistory from './pages/PurchaseHistory'; // Importa la página de historial de compras
+import Historial from './Historial/Historial.jsx';
 import './App.css';
 import Footer from './Footer/Footer.jsx';
 import Login from './Login/Login.jsx';
@@ -23,6 +25,10 @@ function App() {
                         <Route path="/Inicio" element={<Home />}/>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/productos" element={<Categorias />} />
+                        <Route path="/category/:categoryId" element={<Productos />} />
+                        <Route path="product/:id" element={<Detalles />} />
+                        <Route path="/historial" element={<Historial />} />
                     </Routes>
                 </div>
                 <Footer />
