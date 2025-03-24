@@ -1,0 +1,133 @@
+/* PagoRealizado.css */
+
+.payment-success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+.payment-received-card {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 750px;  /* <-- Ancho reducido de 900px a 750px */
+    width: 100%;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.payment-success-title {
+    text-align: center;
+    color: #2a2a2a;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.payment-success-message {
+    margin-bottom: 12px;
+    color: #333333;
+    font-size: 16px;
+}
+
+.payment-success-message strong {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.section-header {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.client-details, .payment-details, .product-details-list {
+    margin-bottom: 30px;
+}
+
+.client-details p, .payment-details p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.product-details-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.product-details-item {
+    background-color: #f8f8f8;
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-details-item p {
+    margin: 6px 0;
+    font-size: 16px;
+    color: #444444;
+}
+
+.product-details-item span {
+    font-weight: bold;
+}
+
+.product-details-name {
+    font-size: 18px;
+    color: #007bff;
+    margin-bottom: 8px;
+}
+
+.product-details-quantity, .product-details-price {
+    font-size: 16px;
+    color: #777777;
+}
+
+.payment-received-card a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.payment-received-card a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos adicionales para mejorar la presentación */
+@media (max-width: 768px) {
+    .payment-received-card {
+        padding: 25px;
+    }
+
+    .payment-success-title {
+        font-size: 24px;
+    }
+
+    .section-header {
+        font-size: 18px;
+    }
+
+    .product-details-item {
+        font-size: 14px;
+    }
+}

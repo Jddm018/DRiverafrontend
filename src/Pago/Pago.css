@@ -1,0 +1,144 @@
+/* Pago.css */
+
+/* Estilos generales */
+.payment-summary-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F4F7FB, #F4F7FB);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Tarjeta principal */
+.payment-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.payment-card h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Detalles del resumen */
+.summary-details {
+    margin-bottom: 20px;
+}
+
+.summary-details p {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+.summary-details p strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Lista de productos */
+.product-details {
+    margin-top: 20px;
+}
+
+.product-details h3 {
+    font-size: 18px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.product-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-details ul li {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.product-details ul li span {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Botón de realizar pago */
+.submit-button {
+    padding: 14px 24px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Respuesta del pago */
+.payment-response {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.payment-response h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.payment-response p {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 15px;
+}
+
+.payment-response p strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .payment-card {
+        padding: 20px;
+    }
+
+    .payment-card h2 {
+        font-size: 22px;
+    }
+
+    .submit-button {
+        font-size: 14px;
+    }
+}

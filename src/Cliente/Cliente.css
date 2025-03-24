@@ -1,0 +1,136 @@
+/* Estilos generales */
+.cliente-paymentContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F4F7FB, #F4F7FB);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.cliente-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 40px; /* Padding más compacto */
+    max-width: 800px; /* Ancho un poco menor */
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.cliente-logo {
+    position: absolute;
+    top: 25px; /* Menos espacio arriba */
+    right: 25px; /* Menos espacio a la derecha */
+    width: 90px; /* Logo un poco más pequeño */
+    height: auto;
+    opacity: 0.8;
+}
+
+.cliente-card h2 {
+    font-size: 28px; /* Título más compacto */
+    color: #2c3e50;
+    margin-bottom: 30px; /* Menos espacio debajo del título */
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Estilos del formulario */
+.cliente-paymentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Menos espacio entre los campos */
+}
+
+.cliente-formRow {
+    display: flex;
+    gap: 20px; /* Menos espacio entre los grupos de campos */
+}
+
+.cliente-formGroup {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.cliente-formGroup label {
+    font-size: 16px; /* Etiquetas más compactas */
+    color: #555555;
+    margin-bottom: 10px; /* Menos espacio debajo de las etiquetas */
+    font-weight: 500;
+}
+
+.cliente-formGroup input {
+    padding: 14px; /* Campos de entrada más compactos */
+    border: 1px solid #e0e0e0;
+    border-radius: 12px; /* Bordes ligeramente menos redondeados */
+    font-size: 16px; /* Texto más compacto */
+    color: #333333;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.cliente-formGroup input:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.cliente-formGroup input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Estilos del botón */
+.cliente-submitButton {
+    padding: 16px 24px; /* Botón más compacto */
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px; /* Bordes ligeramente menos redondeados */
+    font-size: 18px; /* Texto más compacto */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px; /* Menos espacio arriba del botón */
+}
+
+.cliente-submitButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Efecto de hover en los campos */
+.cliente-formGroup input:hover {
+    border-color: #007bff;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .cliente-formRow {
+        flex-direction: column;
+        gap: 15px; /* Menos espacio entre los campos en móviles */
+    }
+
+    .cliente-card {
+        padding: 30px; /* Padding más compacto en móviles */
+    }
+
+    .cliente-logo {
+        width: 80px; /* Logo más pequeño en móviles */
+    }
+
+    .cliente-card h2 {
+        font-size: 24px; /* Título más compacto en móviles */
+    }
+
+    .cliente-submitButton {
+        width: 100%;
+        font-size: 16px; /* Texto del botón más compacto en móviles */
+    }
+}
