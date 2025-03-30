@@ -9,7 +9,9 @@ import Carrito from './Carrito/Carrito.jsx';
 import Cliente from './Cliente/Cliente.jsx';
 import Pago from './Pago/Pago.jsx';
 import Factura from './Factura/Factura.jsx';
-//import Admin from './pages/Admin'; // Importa la página de administrador
+import Admin from './Admin/Admin.jsx'; 
+import CrearProductos from './Crear_Productos/CrearProductos.jsx';
+import EditarProductos from './Editar_Productos/EditarProductos.jsx'
 import Historial from './Historial/Historial.jsx';
 import './App.css';
 import Footer from './Footer/Footer.jsx';
@@ -36,6 +38,9 @@ function App() {
                         <Route path="/pay" element={<Cliente />} />
                         <Route path="/pago" element={<Pago />} />
                         <Route path="/factura" element={<Factura />} />
+                        <Route path="/admin" element={<Admin />} />
+                        <Route path='/admin/crear-productos' element={<CrearProductos />} />
+                        <Route path='/admin/editar-productos' element={<EditarProductos />} />
                     </Routes>
                 </div>
                 <Footer />

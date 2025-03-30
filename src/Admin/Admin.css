@@ -1,0 +1,140 @@
+/* Estilos generales del contenedor */
+.admin-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Estilos del encabezado */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.admin-icon {
+    color: #3498DB;
+}
+
+.admin-title {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.admin-subtitle {
+    color: #666;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.admin-divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #ddd, transparent);
+    margin: 2rem 0;
+}
+
+/* Estilos del menú horizontal */
+.menu-container-horizontal {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.menu-option-horizontal {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+    padding: 1.8rem 1.5rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid #eee;
+    overflow: visible;
+    margin-top: 5px; /* Espacio para el hover */
+}
+
+.menu-option-horizontal::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -1px;
+    right: -1px;
+    height: 3px;
+    background-color: transparent;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s ease;
+}
+
+.menu-option-horizontal:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: #3498DB;
+    z-index: 1;
+}
+
+.menu-option-horizontal:hover::before {
+    background-color: #3498DB;
+}
+
+.menu-option-horizontal:hover .option-icon {
+    background-color: #3498DB;
+    color: white;
+}
+
+/* Estilos de los iconos */
+.option-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f4ff;
+    border-radius: 50%;
+    color: #3498DB;
+    transition: all 0.3s ease;
+}
+
+/* Estilos del texto */
+.option-title {
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.option-description {
+    color: #666;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .menu-container-horizontal {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-container-horizontal {
+        grid-template-columns: 1fr;
+    }
+.admin-container {
+        padding: 1.5rem;
+    }
+}
