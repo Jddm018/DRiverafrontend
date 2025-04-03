@@ -17,6 +17,7 @@ import './App.css';
 import Footer from './Footer/Footer.jsx';
 import Login from './Login/Login.jsx';
 import Register from './Register/Register.jsx';
+import RegisterAdmin from './RegisterAdmin/RegisterAdmin';
 
 function App() {
     return (
@@ -39,8 +40,9 @@ function App() {
                         <Route path="/pago" element={<Pago />} />
                         <Route path="/factura" element={<Factura />} />
                         <Route path="/admin" element={<Admin />} />
-                        <Route path='/admin/crear-productos' element={<CrearProductos />} />
-                        <Route path='/admin/editar-productos' element={<EditarProductos />} />
+                        <Route path='/admin/crear_productos' element={<CrearProductos />} />
+                        <Route path='/admin/editar_productos' element={<EditarProductos />} />
+                        <Route path='/admin/crear_admin' element={<RegisterAdmin />} />
                     </Routes>
                 </div>
                 <Footer />

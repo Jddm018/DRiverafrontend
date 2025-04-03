@@ -44,16 +44,14 @@
 
 /* Estilos del menú horizontal */
 .menu-container-horizontal {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
     padding-bottom: 1rem;
 }
 
 .menu-option-horizontal {
     position: relative;
-    flex: 1;
-    min-width: 250px;
     padding: 1.8rem 1.5rem;
     background-color: white;
     border-radius: 10px;
@@ -63,7 +61,7 @@
     text-align: center;
     border: 1px solid #eee;
     overflow: visible;
-    margin-top: 5px; /* Espacio para el hover */
+    margin-top: 5px;
 }
 
 .menu-option-horizontal::before {
@@ -125,7 +123,6 @@
 /* Responsive design */
 @media (max-width: 1024px) {
     .menu-container-horizontal {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -134,7 +131,7 @@
     .menu-container-horizontal {
         grid-template-columns: 1fr;
     }
-.admin-container {
+    .admin-container {
         padding: 1.5rem;
     }
 }
