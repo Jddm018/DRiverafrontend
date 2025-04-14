@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faDoorOpen, faUser, faBookOpen } from '@fortawesome/free-solid-svg-icons'; // Importa faSignInAlt
+import { faShoppingCart, faDoorOpen, faUser, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import Logo_Rivera from "../img/Logo d1.png";
 
@@ -9,6 +9,8 @@ const Navbar = () => {
     const [user, setUser] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
+
+    const ADMIN_ROLE = 2; // ID numérico del rol de administrador
 
     // Verifica si el usuario está logueado
     const isLoggedIn = () => {
@@ -34,7 +36,9 @@ const Navbar = () => {
                         const data = await response.json();
                         setUser(data);
                         localStorage.setItem("user", JSON.stringify(data));
-                        if (data.role === "ADMIN_ROLE") {
+
+                        
+                        if (data.roleId === ADMIN_ROLE) {
                             setIsAdmin(true);
                         }
                     } else {
@@ -53,6 +57,8 @@ const Navbar = () => {
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('cart');
+        localStorage.removeItem('user');
+        localStorage.removeItem('paymentResponse');
         navigate('/');
         setIsAdmin(false);
     };
@@ -85,10 +91,11 @@ const Navbar = () => {
                 {!isLoggedIn() && (
                     <li>
                         <Link to="/login" className="nav-link" title="Iniciar Sesión">
-                            <FontAwesomeIcon icon={faUser} size="lg" /> {/* Ícono de inicio de sesión */}
+                            <FontAwesomeIcon icon={faUser} size="lg" />
                         </Link>
                     </li>
                 )}
+
                 {/* Mostrar "Panel de Administrador" si es admin */}
                 {isAdmin && (
                     <li>
@@ -101,7 +108,7 @@ const Navbar = () => {
                 {/* Mostrar "Carrito" */}
                 <li>
                     <Link to="/cart" className="nav-link" title="Carrito de Compras">
-                        <FontAwesomeIcon icon={faShoppingCart} size="lg" /> {/* Ícono del carrito */}
+                        <FontAwesomeIcon icon={faShoppingCart} size="lg" />
                     </Link>
                 </li>
 
@@ -109,7 +116,7 @@ const Navbar = () => {
                 {isLoggedIn() && (
                     <li>
                         <div onClick={logout} className="nav-link logout-button" title="Cerrar Sesión">
-                            <FontAwesomeIcon icon={faDoorOpen} size="lg" /> {/* Ícono de cierre de sesión */}
+                            <FontAwesomeIcon icon={faDoorOpen} size="lg" />
                         </div>
                     </li>
                 )}

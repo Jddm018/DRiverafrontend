@@ -18,6 +18,8 @@ import Footer from './Footer/Footer.jsx';
 import Login from './Login/Login.jsx';
 import Register from './Register/Register.jsx';
 import RegisterAdmin from './RegisterAdmin/RegisterAdmin';
+import EditarAdmin from './EditarAdmin/EditarAdmin.jsx';
+import CrearProveedor from './CrearProveedor/CrearProveedor.jsx';
 
 function App() {
     return (
@@ -43,6 +45,9 @@ function App() {
                         <Route path='/admin/crear_productos' element={<CrearProductos />} />
                         <Route path='/admin/editar_productos' element={<EditarProductos />} />
                         <Route path='/admin/crear_admin' element={<RegisterAdmin />} />
+                        <Route path='/admin/editar_admin' element={<EditarAdmin />} />
+                        <Route path='/admin/crear_proveedor' element={<CrearProveedor />} />
+
                     </Routes>
                 </div>
                 <Footer />

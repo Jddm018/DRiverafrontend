@@ -53,7 +53,7 @@ const Productos = () => {
             <h1>Productos en la categoría de {categoriaNombre}</h1>
             <div className="productos">
                 {productos.map((producto) => (
-                    <Link key={producto._id} to={`/product/${producto._id}`} className="producto-link">
+                    <Link key={producto.id} to={`/product/${producto.id}`} className="producto-link">
                         <div className="producto">
                             <img
                                 src={`http://localhost:8080/uploads/products/${producto.images}`}

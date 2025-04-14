@@ -8,14 +8,14 @@
     min-height: 100vh;
     width: 100%;
     box-sizing: border-box;
-    opacity: 0; /* Inicialmente invisible para la animación */
-    animation: fadeIn 0.8s ease-in-out forwards; /* Animación de entrada */
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px); /* Desplazamiento hacia arriba */
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -34,13 +34,13 @@
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    animation: slideIn 0.8s ease-in-out; /* Animación de deslizamiento */
+    animation: slideIn 0.8s ease-in-out;
 }
 
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateX(-20px); /* Desplazamiento desde la izquierda */
+        transform: translateX(-20px);
     }
     to {
         opacity: 1;
@@ -50,6 +50,7 @@
 
 /* Contenedor de la imagen */
 .product-image-container {
+    position: relative;
     width: 100%;
     max-width: 400px;
     height: 300px;
@@ -60,12 +61,12 @@
     border-radius: 15px;
     padding: 1rem;
     margin: 0 auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product-image-container:hover {
-    transform: scale(1.05); /* Efecto de escala al hacer hover */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
@@ -75,11 +76,11 @@
     height: auto;
     object-fit: contain;
     border-radius: 10px;
-    transition: transform 0.3s ease; /* Transición suave */
+    transition: transform 0.3s ease;
 }
 
 .product-image-container:hover .product-image {
-    transform: scale(1.1); /* Efecto de escala al hacer hover */
+    transform: scale(1.1);
 }
 
 /* Información del producto */
@@ -89,13 +90,13 @@
     flex-direction: column;
     gap: 0.3rem;
     padding-left: 1rem;
-    animation: fadeInText 1s ease-in-out; /* Animación de texto */
+    animation: fadeInText 1s ease-in-out;
 }
 
 @keyframes fadeInText {
     from {
         opacity: 0;
-        transform: translateY(10px); /* Desplazamiento hacia arriba */
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -137,7 +138,7 @@
 .product-description {
     margin-top: 2rem;
     width: 100%;
-    animation: fadeInText 1.2s ease-in-out; /* Animación de texto */
+    animation: fadeInText 1.2s ease-in-out;
 }
 
 .product-description h2 {
@@ -163,18 +164,18 @@
     font-size: 1rem;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 1rem;
     width: 100%;
     max-width: 300px;
     align-self: center;
-    animation: fadeInButton 1.5s ease-in-out; /* Animación del botón */
+    animation: fadeInButton 1.5s ease-in-out;
 }
 
 @keyframes fadeInButton {
     from {
         opacity: 0;
-        transform: translateY(20px); /* Desplazamiento hacia arriba */
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -184,12 +185,42 @@
 
 .add-to-cart-button:hover {
     background-color: #0056b3;
-    transform: scale(1.05); /* Efecto de escala al hacer hover */
+    transform: scale(1.05);
 }
 
 .add-to-cart-button:active {
     background-color: #004080;
-    transform: scale(0.95); /* Efecto de escala al hacer clic */
+    transform: scale(0.95);
+}
+
+/* Estilos para producto agotado */
+.stock-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #d32f2f;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.out-of-stock {
+    color: #d32f2f !important;
+    font-weight: bold;
+}
+
+.out-of-stock-button {
+    background-color: #9e9e9e !important;
+    cursor: not-allowed !important;
+}
+
+.out-of-stock-button:hover {
+    background-color: #9e9e9e !important;
+    transform: none !important;
 }
 
 /* Responsive */

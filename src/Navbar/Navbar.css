@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #3498db; /* Color de fondo */
+    background-color: #3498db;
     padding: 15px 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -60,4 +60,115 @@
     color: #f4f4f4;
     font-size: 18px;
     font-weight: 500;
+}
+
+/* ============================================= */
+/* Estilos específicos para el modal de logout */
+/* (No afectan otros componentes) */
+/* ============================================= */
+
+.nav-logout-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.nav-logout-modal {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    max-width: 90%;
+    overflow: hidden;
+    animation: nav-modalFadeIn 0.3s ease-out;
+}
+
+@keyframes nav-modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nav-logout-modal-header {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.nav-logout-modal-body {
+    padding: 25px 20px;
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+}
+
+.nav-logout-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+.nav-logout-modal-cancel, 
+.nav-logout-modal-confirm {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-logout-modal-cancel {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.nav-logout-modal-cancel:hover {
+    background-color: #e2e2e2;
+}
+
+.nav-logout-modal-confirm {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.nav-logout-modal-confirm:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive específico para el modal */
+@media (max-width: 768px) {
+    .nav-logout-modal {
+        width: 90%;
+    }
+    
+    .nav-logout-modal-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-logout-modal-cancel, 
+    .nav-logout-modal-confirm {
+        width: 100%;
+        justify-content: center;
+    }
 }

@@ -44,12 +44,13 @@ const Cliente = () => {
             const data = await response.json();
             const newClient = data.client;
 
-            if (!newClient.uid) {
-                console.error('La respuesta del backend no contiene un UID válido:', newClient);
-                throw new Error("El cliente creado no contiene un UID válido");
+            // Cambiado de uid a id
+            if (!newClient.id) {
+                console.error('La respuesta del backend no contiene un ID válido:', newClient);
+                throw new Error("El cliente creado no contiene un ID válido");
             }
 
-            navigate('/pago', { state: { client: newClient.uid, cart, totalPrice } });
+            navigate('/pago', { state: { client: newClient.id, cart, totalPrice } });
         } catch (error) {
             console.error('Error al crear cliente:', error);
             alert('Error al crear cliente. Intenta de nuevo.');
@@ -59,7 +60,6 @@ const Cliente = () => {
     return (
         <div className="cliente-paymentContainer">
             <div className="cliente-card">
-                {/* Imagen del logo en la esquina superior derecha */}
                 <img src={visaLogo} alt="Visa y Mastercard" className="cliente-logo" />
                 <h2>Información del Cliente</h2>
                 <form className="cliente-paymentForm">
@@ -96,7 +96,16 @@ const Cliente = () => {
                     <div className="cliente-formRow">
                         <div className="cliente-formGroup">
                             <label htmlFor="expiryDate">Fecha de Expiración:</label>
-                            <input type="text" id="expiryDate" name="expiryDate" value={new Date(Date.now() + 12 * 60 * 60 * 1000).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })} readOnly />
+                            <input
+                                type="text"
+                                id="expiryDate"
+                                name="expiryDate"
+                                value={new Date(Date.now() + 12 * 60 * 60 * 1000).toLocaleString('es-ES', {
+                                    dateStyle: 'short',
+                                    timeStyle: 'short'
+                                })}
+                                readOnly
+                            />
                         </div>
                         <div className="cliente-formGroup">
                             <label htmlFor="cvv">CVV:</label>

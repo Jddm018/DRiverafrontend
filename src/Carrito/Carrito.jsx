@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Carrito.css'; // Importa el archivo CSS
+import './Carrito.css'; 
 
 function Carrito() {
     const [cart, setCart] = useState([]);
@@ -26,12 +26,11 @@ function Carrito() {
         setTotalPrice(totalPrice);
     };
 
-    // Función para formatear el precio con puntos de mil y moneda COP
     const formatPrice = (price) => {
         return price.toLocaleString('es-CO', {
             style: 'currency',
             currency: 'COP',
-            minimumFractionDigits: 0, // No mostrar decimales
+            minimumFractionDigits: 0,
         });
     };
 
@@ -75,7 +74,7 @@ function Carrito() {
 
     const clearCart = () => {
         setCart([]);
-        setTotalPrice(0); // Reinicia el total a 0
+        setTotalPrice(0);
         localStorage.removeItem('cart');
     };
 
@@ -95,9 +94,13 @@ function Carrito() {
                 <tbody>
                     {cart.map((item, index) => (
                         <tr key={index}>
-                            <td className="td"><img src={`http://localhost:8080/uploads/products/${item.images}`} alt={item.name} className="img"/></td>
+                            <td className="td">
+                                <img src={`http://localhost:8080/uploads/products/${item.images}`} alt={item.name} className="img" />
+                            </td>
                             <td className="td">{item.name}</td>
-                            <td className="td">{formatPrice(item.price)} COP</td> {/* Precio formateado + "COP" */}
+                            <td className="td">
+                                <span>{formatPrice(item.price)}</span> <span>COP</span>
+                            </td>
                             <td>
                                 <button onClick={() => decreaseQuantity(index)} className="quantityButton">-</button>
                                 <span className="quantity">{item.quantity}</span>
@@ -112,7 +115,7 @@ function Carrito() {
             </table>
             <div className="cardTotal">
                 <h4>Precio final de compra</h4>
-                <p>Total: {formatPrice(totalPrice)} COP</p> {/* Precio total formateado + "COP" */}
+                <p>Total: <span>{formatPrice(totalPrice)}</span> <span>COP</span></p>
             </div>
             <div className="divButton">
                 <button onClick={handleCheckout} className="checkoutButton" disabled={loading}>

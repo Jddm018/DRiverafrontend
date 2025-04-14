@@ -29,7 +29,7 @@ const RegisterAdmin = () => {
                 name,
                 email,
                 password,
-                role: 'ADMIN_ROLE'
+                roleId: 2
             };
 
             console.log('Datos a enviar:', data);

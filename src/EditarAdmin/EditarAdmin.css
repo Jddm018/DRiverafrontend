@@ -1,0 +1,389 @@
+/* Estilos base para el componente */
+.admin-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  /* Encabezado mejorado */
+  .admin-header {
+    margin-bottom: 30px;
+  }
+  
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .admin-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .title-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .header-icon {
+    color: #7f8c8d;
+    font-size: 1.8rem;
+  }
+  
+  .header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .admin-count-badge {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .search-container {
+    position: relative;
+    flex-grow: 1;
+    max-width: 400px;
+  }
+  
+  .search-container input {
+    width: 100%;
+    padding: 10px 15px 10px 35px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+  
+  .search-container input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #95a5a6;
+  }
+  
+  /* Lista de administradores */
+  .admin-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .admin-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+  }
+  
+  .admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-main-content {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .admin-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  
+  .admin-info {
+    flex-grow: 1;
+  }
+  
+  .admin-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #2c3e50;
+  }
+  
+  .admin-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .admin-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+  }
+  
+  .admin-status.active .status-icon {
+    color: #2ecc71;
+  }
+  
+  .admin-status.inactive .status-icon {
+    color: #e74c3c;
+  }
+  
+  .status-icon {
+    font-size: 0.5rem;
+  }
+  
+  .admin-email {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+  }
+  
+  .email-icon {
+    font-size: 0.8rem;
+    color: #95a5a6;
+  }
+  
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 15px;
+    margin-top: 5px;
+  }
+  
+  .delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffebee;
+    color: #e74c3c;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .delete-btn:hover {
+    background-color: #fdd8d8;
+  }
+  
+  .delete-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .delete-btn span {
+    font-weight: 500;
+  }
+  
+  /* Estado vacío */
+  .no-admins-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    grid-column: 1 / -1;
+  }
+  
+  .empty-state {
+    text-align: center;
+    max-width: 400px;
+    padding: 30px;
+  }
+  
+  .empty-icon {
+    font-size: 3.5rem;
+    color: #bdc3c7;
+    margin-bottom: 15px;
+  }
+  
+  .empty-state h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+  }
+  
+  .empty-state p {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+  }
+  
+  /* Loading */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: 15px;
+    grid-column: 1 / -1;
+  }
+  
+  .loading-container p {
+    color: #7f8c8d;
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+  
+  .spin-animation {
+    animation: spin 1s linear infinite;
+  }
+  
+  .delay-0 { animation-delay: 0.1s; }
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.4s; }
+  
+  /* Modal de Confirmación */
+  .confirm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+  }
+  
+  .confirm-modal {
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .confirm-modal-header {
+    background-color: #ef233c;
+    color: white;
+    padding: 1.2rem;
+    text-align: center;
+  }
+  
+  .confirm-modal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+  
+  .confirm-modal-body {
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+  
+  .warning-icon {
+    font-size: 3rem;
+    color: #ef233c;
+    margin-bottom: 1.5rem;
+  }
+  
+  .confirm-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .cancel-button, .confirm-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .cancel-button {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  .cancel-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .confirm-button {
+    background-color: #ef233c;
+    color: white;
+  }
+  
+  .confirm-button:hover {
+    background-color: #d90429;
+  }
+  
+  .confirm-button:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+    
+    .search-container {
+      max-width: 100%;
+    }
+    
+    .admin-cards-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .title-text {
+      font-size: 1.5rem;
+    }
+  }

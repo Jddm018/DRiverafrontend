@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 120px); /* Ajusta la altura para no cubrir el Navbar y el Footer */
-    background: #ffffff; /* Fondo blanco */
+    background: #F4F7FB; /* Fondo blanco */
     padding: 2rem;
 }
 

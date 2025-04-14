@@ -10,7 +10,7 @@ const CrearProducto = () => {
         description: '',
         price: '',
         images: null,
-        category: ''
+        categoryId: '' // Cambiado de 'category' a 'categoryId'
     });
     const [categories, setCategories] = useState([]);
     const [errors, setErrors] = useState({});
@@ -25,15 +25,27 @@ const CrearProducto = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
+                console.log('Iniciando fetch de categorías...');
                 const response = await fetch('http://localhost:8080/api/categories');
+                
+                console.log('Respuesta recibida:', response);
+                
                 if (response.ok) {
                     const data = await response.json();
-                    setCategories(data.categories);
+                    console.log('Datos de categorías recibidos:', data);
+                    
+                    // Ajuste para diferentes estructuras de respuesta
+                    const categoriesData = data.categories || data;
+                    setCategories(categoriesData);
+                    
+                    console.log('Categorías establecidas:', categoriesData);
                 } else {
-                    throw new Error('Error al obtener categorías');
+                    const errorData = await response.json();
+                    console.error('Error en la respuesta:', errorData);
+                    throw new Error(errorData.message || 'Error al obtener categorías');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error al obtener categorías:', error);
                 setNotification({
                     show: true,
                     message: 'Error al cargar categorías',
@@ -61,7 +73,7 @@ const CrearProducto = () => {
         if (!product.name.trim()) newErrors.name = 'Nombre es requerido';
         if (!product.price) newErrors.price = 'Precio es requerido';
         else if (isNaN(product.price) || parseFloat(product.price) <= 0) newErrors.price = 'Precio inválido';
-        if (!product.category) newErrors.category = 'Categoría es requerida';
+        if (!product.categoryId) newErrors.categoryId = 'Categoría es requerida';
         if (!product.description) newErrors.description = 'Descripción es requerida';
         if (!product.images) newErrors.images = 'Imagen es requerida';
 
@@ -72,13 +84,22 @@ const CrearProducto = () => {
     const getToken = () => {
         return localStorage.getItem('token');
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
+        console.log('Iniciando envío del formulario...', product);
+        
+        if (!validateForm()) {
+            console.log('Validación fallida', errors);
+            return;
+        }
+        
         setIsSubmitting(true);
         setNotification({ show: false, message: '', type: '' });
+        
         const token = getToken();
         if (!token) {
+            console.log('No se encontró token de autenticación');
             setNotification({
                 show: true,
                 message: 'No estás autenticado',
@@ -87,14 +108,26 @@ const CrearProducto = () => {
             setIsSubmitting(false);
             return;
         }
+        
         const formData = new FormData();
         formData.append('name', product.name);
         formData.append('title', product.title);
         formData.append('price', product.price);
-        formData.append('category', product.category);
+        formData.append('categoryId', product.categoryId); // Cambiado a categoryId
         formData.append('description', product.description);
         formData.append('uploadFile', product.images);
+        
+        console.log('Datos del formulario preparados:', {
+            name: product.name,
+            title: product.title,
+            price: product.price,
+            categoryId: product.categoryId,
+            description: product.description,
+            images: product.images ? product.images.name : 'Ninguna'
+        });
+
         try {
+            console.log('Enviando petición al servidor...');
             const response = await fetch('http://localhost:8080/api/product/', {
                 method: 'POST',
                 headers: {
@@ -102,48 +135,55 @@ const CrearProducto = () => {
                 },
                 body: formData
             });
-        const data = await response.json();
+            
+            console.log('Respuesta del servidor recibida:', response);
+            
+            const data = await response.json();
+            console.log('Datos de respuesta:', data);
 
-        if (!response.ok) {
-            throw new Error(data.message || 'Error al crear producto');
-        }
+            if (!response.ok) {
+                throw new Error(data.message || 'Error al crear producto');
+            }
 
-        setNotification({
-            show: true,
-            message: 'Producto creado exitosamente. Te notificaremos cuando haya stock disponible.',
-            type: 'success'
-        });
+            console.log('Producto creado exitosamente');
+            setNotification({
+                show: true,
+                message: 'Producto creado exitosamente. Te notificaremos cuando haya stock disponible.',
+                type: 'success'
+            });
 
-        // Resetear formulario después de creación exitosa
-        setProduct({
-            name: '',
-            title: '',
-            description: '',
-            price: '',
-            images: null,
-            category: ''
-        });
+            // Resetear formulario después de creación exitosa
+            setProduct({
+                name: '',
+                title: '',
+                description: '',
+                price: '',
+                images: null,
+                categoryId: ''
+            });
 
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error en la petición:', error);
             setNotification({
-            show: true,
-            message: error.message || 'Error al conectar con el servidor',
-            type: 'error'
-        });
+                show: true,
+                message: error.message || 'Error al conectar con el servidor',
+                type: 'error'
+            });
         } finally {
             setIsSubmitting(false);
+            console.log('Estado después del envío:', { isSubmitting, notification, product });
         }
     };
 
     const handleResetForm = () => {
+        console.log('Reseteando formulario...');
         setProduct({
             name: '',
             title: '',
             description: '',
             price: '',
             images: null,
-            category: ''
+            categoryId: ''
         });
         setErrors({});
         setNotification({ show: false, message: '', type: '' });
@@ -182,13 +222,23 @@ const CrearProducto = () => {
                 </div>
                 <div className="form-group">
                     <label>Categoría *</label>
-                    <select name="category" value={product.category} onChange={handleChange} className={errors.category ? 'input-error' : ''}>
+                    <select 
+                        name="categoryId" 
+                        value={product.categoryId} 
+                        onChange={handleChange} 
+                        className={errors.categoryId ? 'input-error' : ''}
+                    >
                         <option value="">Seleccione una categoría</option>
                         {categories.map(cat => (
-                            <option key={cat._id} value={cat._id}>{cat.name}</option>
+                            <option 
+                                key={cat.id || cat.categoryId || cat._id} 
+                                value={cat.id || cat.categoryId || cat._id}
+                            >
+                                {cat.name}
+                            </option>
                         ))}
                     </select>
-                    {errors.category && <span className="error-message">{errors.category}</span>}
+                    {errors.categoryId && <span className="error-message">{errors.categoryId}</span>}
                 </div>
                 <div className="form-group">
                     <label>Descripción *</label>
