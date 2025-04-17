@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './Productos.css';
 
 const Productos = () => {
-    const { categoryId } = useParams(); // Obtiene el ID de la categoría de la URL
+    const { categoryId } = useParams();
+    const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
     const [categoriaNombre, setCategoriaNombre] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // Función para formatear el precio con puntos y agregar COP
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-CO', {
             style: 'decimal',
@@ -20,7 +22,6 @@ const Productos = () => {
     useEffect(() => {
         const fetchProductosPorCategoria = async () => {
             try {
-                // Obtener los productos de la categoría
                 const responseProductos = await fetch(`http://localhost:8080/api/product/category/${categoryId}`);
                 if (!responseProductos.ok) {
                     throw new Error('Error al cargar los productos');
@@ -28,13 +29,12 @@ const Productos = () => {
                 const dataProductos = await responseProductos.json();
                 setProductos(dataProductos.products);
 
-                // Obtener el nombre de la categoría
                 const responseCategoria = await fetch(`http://localhost:8080/api/categories/${categoryId}`);
                 if (!responseCategoria.ok) {
                     throw new Error('Error al cargar la categoría');
                 }
                 const dataCategoria = await responseCategoria.json();
-                setCategoriaNombre(dataCategoria.name); // Ajusta según la estructura de tu respuesta
+                setCategoriaNombre(dataCategoria.name);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -50,7 +50,12 @@ const Productos = () => {
 
     return (
         <div className="productos-categoria">
-            <h1>Productos en la categoría de {categoriaNombre}</h1>
+            <div className="header-with-back">
+                <button className="back-button" onClick={() => navigate(-1)}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+                <h1>Productos en la categoría de {categoriaNombre}</h1>
+            </div>
             <div className="productos">
                 {productos.map((producto) => (
                     <Link key={producto.id} to={`/product/${producto.id}`} className="producto-link">

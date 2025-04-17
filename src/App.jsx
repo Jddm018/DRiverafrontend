@@ -20,12 +20,15 @@ import Register from './Register/Register.jsx';
 import RegisterAdmin from './RegisterAdmin/RegisterAdmin';
 import EditarAdmin from './EditarAdmin/EditarAdmin.jsx';
 import CrearProveedor from './CrearProveedor/CrearProveedor.jsx';
+import Fijar from './Fijar/Fijar.jsx'
+import EditarProveedor from './EditarProveedor/EditarProveedor.jsx'
 
 function App() {
     return (
         <Router>
             <div className="App">
                 <Navbar />
+                <Fijar />
                 <div className="main-content"> {/* Contenedor para el contenido principal */}
                     {/* Define las rutas de la aplicación */}
                     <Routes>
@@ -47,7 +50,7 @@ function App() {
                         <Route path='/admin/crear_admin' element={<RegisterAdmin />} />
                         <Route path='/admin/editar_admin' element={<EditarAdmin />} />
                         <Route path='/admin/crear_proveedor' element={<CrearProveedor />} />
-
+                        <Route path='/admin/editar_proveedor' element={<EditarProveedor />} />
                     </Routes>
                 </div>
                 <Footer />

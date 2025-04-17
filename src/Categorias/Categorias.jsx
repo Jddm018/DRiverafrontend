@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Categorias.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // Importa las imágenes directamente
 import barbacoaImage from '../img/barbacoa.png'; 
@@ -13,6 +15,7 @@ const Categorias = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const productImages = [
         estufaImage,
@@ -56,7 +59,12 @@ const Categorias = () => {
 
     return (
         <div className="product-cards">
-            <h2>Nuestras Categorías</h2>
+            <div className="header-with-back">
+                <button className="back-button" onClick={() => navigate(-1)}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+                <h2>Nuestras Categorías</h2>
+            </div>
             <div className="cards-container">
                 {displayCategories.map((category, index) => {
                     console.log('Categoría completa:', category);

@@ -98,7 +98,7 @@ const Historial = () => {
               </p>
               <p>
                 <strong className="info-item">Pagado:</strong>{' '}
-                ${Number(compra.pay.amountpay).toLocaleString()}
+                {Number(compra.pay.amountpay).toLocaleString()} COP
               </p>
               <button
                 className="btn-ver-detalles"
@@ -131,7 +131,7 @@ const Historial = () => {
                 </p>
                 <p>
                   <strong className="info-item">Total:</strong>{' '}
-                  ${Number(compra.pay.amountpay).toLocaleString()}
+                  {Number(compra.pay.amountpay).toLocaleString()} COP
                 </p>
 
                 <table>

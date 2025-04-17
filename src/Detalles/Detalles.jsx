@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './Detalles.css';
 
 function Detalles() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [cart, setCart] = useState(() => {
         try {
@@ -69,6 +72,11 @@ function Detalles() {
 
     return (
         <div className="product-view-container">
+            <div className="header-with-back">
+                <button className="back-button" onClick={() => navigate(-1)}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+            </div>
             <div className="product-details">
                 <div className="product-image-container">
                     <img
@@ -84,7 +92,7 @@ function Detalles() {
                     <h1 className="product-title">{product.name}</h1>
                     <p className="product-category">{product.category?.name || product.category}</p>
                     <p className="free-shipping">Envío Gratis</p>
-                    <p className="product-price">Precio: ${new Intl.NumberFormat('es-CO').format(product.price)} COP</p>
+                    <p className="product-price">Precio: {new Intl.NumberFormat('es-CO').format(product.price)} COP</p>
                     <p className={`inventory-info ${product.stock === 0 ? 'out-of-stock' : ''}`}>
                         {product.stock > 0
                             ? `Inventario: ${product.stock} unidades disponibles`

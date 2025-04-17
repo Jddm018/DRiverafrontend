@@ -257,20 +257,114 @@
     cursor: not-allowed;
 }
 
+/* Botón de eliminar */
+.btn-delete {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    background-color: #f44336;
+    color: white;
+    margin-left: auto;
+}
+
+.btn-delete:hover:not(:disabled) {
+    background-color: #d32f2f;
+}
+
+.btn-delete:disabled {
+    background-color: #e57373;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Confirmación de eliminación */
+.delete-confirmation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.delete-confirmation-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.delete-confirmation h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.delete-confirmation p {
+    margin: 1rem 0;
+    color: #555;
+}
+
+.delete-confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.btn-confirm-delete {
+    padding: 0.8rem 1.5rem;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-confirm-delete:hover:not(:disabled) {
+    background-color: #d32f2f;
+}
+
+.btn-cancel-delete {
+    padding: 0.8rem 1.5rem;
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-cancel-delete:hover:not(:disabled) {
+    background-color: #e0e0e0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .editar-producto-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .producto-container {
         padding: 1.5rem;
     }
-    
+
     .form-actions {
         flex-direction: column;
     }
-    
+
     .btn-primary, .btn-secondary {
         width: 100%;
         justify-content: center;

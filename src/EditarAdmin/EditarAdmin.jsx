@@ -56,10 +56,10 @@ const EditarAdmin = () => {
     if (!adminToDelete) return;
 
     try {
-      setDeletingId(adminToDelete._id);
+      setDeletingId(adminToDelete.id);
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:8080/api/users/${adminToDelete._id}`, {
+      const response = await fetch(`http://localhost:8080/api/user/${adminToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'x-token': token,
@@ -73,7 +73,7 @@ const EditarAdmin = () => {
         throw new Error(result.msg || 'No se pudo eliminar el administrador');
       }
 
-      setAdmins(admins.filter(admin => admin._id !== adminToDelete._id));
+      setAdmins(admins.filter(admin => admin.id !== adminToDelete.id));
       enqueueSnackbar(result.msg || 'Administrador eliminado correctamente', {
         variant: 'success',
         autoHideDuration: 3000
@@ -158,7 +158,7 @@ const EditarAdmin = () => {
       ) : (
         <div className="admin-cards-container fade-in">
           {filteredAdmins.map((admin, index) => (
-            <div key={admin._id} className={`admin-card delay-${index % 4}`}>
+            <div key={admin.id} className={`admin-card delay-${index % 4}`}>
               <div className="card-main-content">
                 <div className="admin-avatar" style={{ backgroundColor: stringToColor(admin.name) }}>
                   {admin.name.charAt(0).toUpperCase()}
@@ -184,9 +184,9 @@ const EditarAdmin = () => {
                     setShowConfirmModal(true);
                   }}
                   className="delete-btn"
-                  disabled={deletingId === admin._id}
+                  disabled={deletingId === admin.id}
                 >
-                  {deletingId === admin._id ? (
+                  {deletingId === admin.id ? (
                     <FontAwesomeIcon icon={faSpinner} spin />
                   ) : (
                     <FontAwesomeIcon icon={faTrashAlt} />
@@ -221,9 +221,9 @@ const EditarAdmin = () => {
               <button 
                 onClick={handleConfirmDelete}
                 className="confirm-button hover-grow"
-                disabled={deletingId === adminToDelete?._id}
+                disabled={deletingId === adminToDelete?.id}
               >
-                {deletingId === adminToDelete?._id ? (
+                {deletingId === adminToDelete?.id ? (
                   <FontAwesomeIcon icon={faSpinner} spin />
                 ) : (
                   <FontAwesomeIcon icon={faCheck} />

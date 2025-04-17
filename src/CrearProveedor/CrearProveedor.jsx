@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faSpinner, faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './CrearProveedor.css';
 
 const CrearProveedor = () => {
@@ -11,54 +11,38 @@ const CrearProveedor = () => {
     email: '',
     phone: '',
     productexport: '',
-    address: '',
-    state: true
+    address: ''
   });
   
-  const [errors, setErrors] = useState({});
-  const [notification, setNotification] = useState({
-    show: false,
-    message: '',
-    type: 'success'
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio';
-    if (!formData.company.trim()) newErrors.company = 'El nombre de la empresa es obligatorio';
-    if (!formData.contact.trim()) newErrors.contact = 'El contacto es obligatorio';
-    if (!formData.email.trim()) {
-      newErrors.email = 'El correo es obligatorio';
-    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = 'El correo no es válido';
-    }
-    if (!formData.phone.trim()) newErrors.phone = 'El teléfono es obligatorio';
-    if (!formData.productexport.trim()) newErrors.productexport = 'Debe colocar el producto exportado';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  // Maneja el cambio en los campos del formulario
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [name]: value
+      [e.target.name]: e.target.value
     });
   };
 
+  // Función para enviar el formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    setError('');
+    setMensaje('');
 
-    setIsSubmitting(true);
-    
+    // Validación simple de que los campos obligatorios no estén vacíos
+    const { name, company, contact, email, phone, productexport } = formData;
+    if (!name || !company || !contact || !email || !phone || !productexport) {
+      setError('Por favor, complete todos los campos obligatorios.');
+      return;
+    }
+
     try {
-      const response = await fetch('/api/providers', {
+      const response = await fetch('http://localhost:8080/api/providers', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       });
@@ -66,180 +50,113 @@ const CrearProveedor = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.msg || 'Error al registrar el proveedor');
+        setError(data.msg || 'Error al crear el proveedor.');
+      } else {
+        setMensaje('Proveedor creado exitosamente.');
+        // Reiniciar formulario en caso de éxito
+        setFormData({
+          name: '',
+          company: '',
+          contact: '',
+          email: '',
+          phone: '',
+          productexport: '',
+          address: ''
+        });
       }
-
-      showNotification('Proveedor registrado exitosamente', 'success');
-      setFormData({
-        name: '',
-        company: '',
-        contact: '',
-        email: '',
-        phone: '',
-        productexport: '',
-        address: '',
-        state: true
-      });
     } catch (error) {
-      showNotification(error.message, 'error');
-    } finally {
-      setIsSubmitting(false);
+      setError('Error de red: no se pudo conectar al servidor.');
+      console.error('Error en fetch:', error);
     }
   };
 
-  const showNotification = (message, type) => {
-    setNotification({
-      show: true,
-      message,
-      type
-    });
-    setTimeout(() => {
-      setNotification({
-        ...notification,
-        show: false
-      });
-    }, 5000);
-  };
-
   return (
-    <div className="provider-registration-container">
-      <h1 className="registration-title">
-        <FontAwesomeIcon icon={faSave} className="title-icon" />
-        Registro de Nuevo Proveedor
-      </h1>
-      
-      <div className="registration-form-container">
-        <form onSubmit={handleSubmit} className="provider-form">
-          <div className="form-group">
-            <label htmlFor="name">Nombre del Proveedor*</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              className={errors.name ? 'input-error' : ''}
-            />
-            {errors.name && <span className="error-message">
-              <FontAwesomeIcon icon={faExclamationTriangle} /> {errors.name}
-            </span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="company">Nombre de la Empresa*</label>
-            <input
-              type="text"
-              id="company"
-              name="company"
-              value={formData.company}
-              onChange={handleInputChange}
-              className={errors.company ? 'input-error' : ''}
-            />
-            {errors.company && <span className="error-message">
-              <FontAwesomeIcon icon={faExclamationTriangle} /> {errors.company}
-            </span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="contact">Persona de Contacto*</label>
-            <input
-              type="text"
-              id="contact"
-              name="contact"
-              value={formData.contact}
-              onChange={handleInputChange}
-              className={errors.contact ? 'input-error' : ''}
-            />
-            {errors.contact && <span className="error-message">
-              <FontAwesomeIcon icon={faExclamationTriangle} /> {errors.contact}
-            </span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="email">Email*</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className={errors.email ? 'input-error' : ''}
-            />
-            {errors.email && <span className="error-message">
-              <FontAwesomeIcon icon={faExclamationTriangle} /> {errors.email}
-            </span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="phone">Teléfono*</label>
-            <input
-              type="text"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className={errors.phone ? 'input-error' : ''}
-            />
-            {errors.phone && <span className="error-message">
-              <FontAwesomeIcon icon={faExclamationTriangle} /> {errors.phone}
-            </span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="productexport">Producto que Exporta*</label>
-            <input
-              type="text"
-              id="productexport"
-              name="productexport"
-              value={formData.productexport}
-              onChange={handleInputChange}
-              className={errors.productexport ? 'input-error' : ''}
-            />
-            {errors.productexport && <span className="error-message">
-              <FontAwesomeIcon icon={faExclamationTriangle} /> {errors.productexport}
-            </span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="address">Dirección (Opcional)</label>
-            <textarea
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              rows="3"
-            />
-          </div>
-          
-          <div className="form-actions">
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <FontAwesomeIcon icon={faSpinner} spin /> Registrando...
-                </>
-              ) : (
-                <>
-                  <FontAwesomeIcon icon={faSave} /> Registrar Proveedor
-                </>
-              )}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {notification.show && (
-        <div className={`notification ${notification.type}`}>
-          <FontAwesomeIcon 
-            icon={notification.type === 'success' ? faCheckCircle : faExclamationTriangle} 
-            className="notification-icon" 
+    <div className="crear-proveedor">
+      <h2>Crear Proveedor</h2>
+      {mensaje && <div className="mensaje-exito">{mensaje}</div>}
+      {error && <div className="mensaje-error">{error}</div>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name">Nombre:</label>
+          <input 
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Ingrese el nombre"
           />
-          {notification.message}
         </div>
-      )}
+        <div>
+          <label htmlFor="company">Empresa:</label>
+          <input 
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            placeholder="Ingrese el nombre de la empresa"
+          />
+        </div>
+        <div>
+          <label htmlFor="contact">Contacto:</label>
+          <input 
+            type="text"
+            id="contact"
+            name="contact"
+            value={formData.contact}
+            onChange={handleChange}
+            placeholder="Ingrese el contacto"
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Correo electrónico:</label>
+          <input 
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Ingrese el correo electrónico"
+          />
+        </div>
+        <div>
+          <label htmlFor="phone">Teléfono:</label>
+          <input 
+            type="text"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="Ingrese el teléfono"
+          />
+        </div>
+        <div>
+          <label htmlFor="productexport">Producto Exportado:</label>
+          <input 
+            type="text"
+            id="productexport"
+            name="productexport"
+            value={formData.productexport}
+            onChange={handleChange}
+            placeholder="Ingrese el producto exportado"
+          />
+        </div>
+        <div>
+          <label htmlFor="address">Dirección:</label>
+          <input 
+            type="text"
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Ingrese la dirección (opcional)"
+          />
+        </div>
+        <button type="submit">
+          <FontAwesomeIcon icon={faPlus} /> Crear Proveedor
+        </button>
+      </form>
     </div>
   );
 };

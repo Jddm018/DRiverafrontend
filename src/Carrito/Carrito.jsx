@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Carrito.css'; 
+import './Carrito.css';
 
 function Carrito() {
     const [cart, setCart] = useState([]);
@@ -27,11 +27,10 @@ function Carrito() {
     };
 
     const formatPrice = (price) => {
-        return price.toLocaleString('es-CO', {
-            style: 'currency',
-            currency: 'COP',
+        return new Intl.NumberFormat('es-CO', {
             minimumFractionDigits: 0,
-        });
+            maximumFractionDigits: 0
+        }).format(price);
     };
 
     const handleCheckout = () => {
@@ -101,10 +100,12 @@ function Carrito() {
                             <td className="td">
                                 <span>{formatPrice(item.price)}</span> <span>COP</span>
                             </td>
-                            <td>
-                                <button onClick={() => decreaseQuantity(index)} className="quantityButton">-</button>
-                                <span className="quantity">{item.quantity}</span>
-                                <button onClick={() => increaseQuantity(index)} className="quantityButton">+</button>
+                            <td className="td">
+                                <div className="quantityContainer">
+                                    <button onClick={() => decreaseQuantity(index)} className="quantityButton">-</button>
+                                    <span className="quantity">{item.quantity}</span>
+                                    <button onClick={() => increaseQuantity(index)} className="quantityButton">+</button>
+                                </div>
                             </td>
                             <td className="td">
                                 <button onClick={() => removeFromCart(index)} className="actionButton">Eliminar</button>

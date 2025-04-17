@@ -8,9 +8,10 @@ const CrearProducto = () => {
         name: '',
         title: '',
         description: '',
-        price: '',
+        price: '', // Valor numérico para el backend
+        formattedPrice: '', // Valor formateado para mostrar
         images: null,
-        categoryId: '' // Cambiado de 'category' a 'categoryId'
+        categoryId: ''
     });
     const [categories, setCategories] = useState([]);
     const [errors, setErrors] = useState({});
@@ -20,6 +21,18 @@ const CrearProducto = () => {
         message: '',
         type: '' // 'success' o 'error'
     });
+
+    // Función para formatear el precio con separadores de miles
+    const formatPrice = (value) => {
+        const numValue = value.replace(/\D/g, '');
+        if (!numValue) return '';
+        return parseInt(numValue, 10).toLocaleString('es-CO');
+    };
+
+    // Función para extraer el valor numérico del precio formateado
+    const parsePrice = (formattedValue) => {
+        return formattedValue.replace(/\D/g, '');
+    };
 
     // Obtener categorías al cargar el componente
     useEffect(() => {
@@ -34,7 +47,6 @@ const CrearProducto = () => {
                     const data = await response.json();
                     console.log('Datos de categorías recibidos:', data);
                     
-                    // Ajuste para diferentes estructuras de respuesta
                     const categoriesData = data.categories || data;
                     setCategories(categoriesData);
                     
@@ -58,10 +70,21 @@ const CrearProducto = () => {
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        setProduct(prev => ({
-            ...prev,
-            [name]: files ? files[0] : value
-        }));
+        
+        if (name === 'price') {
+            // Manejo especial para el campo de precio
+            setProduct(prev => ({
+                ...prev,
+                formattedPrice: formatPrice(value),
+                price: parsePrice(value)
+            }));
+        } else {
+            setProduct(prev => ({
+                ...prev,
+                [name]: files ? files[0] : value
+            }));
+        }
+        
         // Limpiar errores al cambiar
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
@@ -113,7 +136,7 @@ const CrearProducto = () => {
         formData.append('name', product.name);
         formData.append('title', product.title);
         formData.append('price', product.price);
-        formData.append('categoryId', product.categoryId); // Cambiado a categoryId
+        formData.append('categoryId', product.categoryId);
         formData.append('description', product.description);
         formData.append('uploadFile', product.images);
         
@@ -158,6 +181,7 @@ const CrearProducto = () => {
                 title: '',
                 description: '',
                 price: '',
+                formattedPrice: '',
                 images: null,
                 categoryId: ''
             });
@@ -182,6 +206,7 @@ const CrearProducto = () => {
             title: '',
             description: '',
             price: '',
+            formattedPrice: '',
             images: null,
             categoryId: ''
         });
@@ -206,18 +231,35 @@ const CrearProducto = () => {
             <form onSubmit={handleSubmit} className="producto-form">
                 <div className="form-group">
                     <label>Nombre del Producto *</label>
-                    <input type="text" name="name" value={product.name} onChange={handleChange}
-                    className={errors.name ? 'input-error' : ''} />
+                    <input 
+                        type="text" 
+                        name="name" 
+                        value={product.name} 
+                        onChange={handleChange}
+                        className={errors.name ? 'input-error' : ''} 
+                    />
                     {errors.name && <span className="error-message">{errors.name}</span>}
                 </div>
                 <div className="form-group">
                     <label>Título del Producto</label>
-                    <input type="text" name="title" value={product.title} onChange={handleChange} />
+                    <input 
+                        type="text" 
+                        name="title" 
+                        value={product.title} 
+                        onChange={handleChange} 
+                    />
                 </div>
                 <div className="form-group">
                     <label>Precio (COP) *</label>
-                    <input type="number" name="price" value={product.price} onChange={handleChange} min="0"
-                    step="50" className={errors.price ? 'input-error' : ''}/>
+                    <input 
+                        type="text" 
+                        name="price" 
+                        value={product.formattedPrice} 
+                        onChange={handleChange} 
+                        className={errors.price ? 'input-error' : ''}
+                        inputMode="numeric"
+                        placeholder="Ej: 1.000.000"
+                    />
                     {errors.price && <span className="error-message">{errors.price}</span>}
                 </div>
                 <div className="form-group">
@@ -242,13 +284,23 @@ const CrearProducto = () => {
                 </div>
                 <div className="form-group">
                     <label>Descripción *</label>
-                    <textarea name="description" value={product.description} onChange={handleChange}
-                        className={errors.description ? 'input-error' : ''}/>
+                    <textarea 
+                        name="description" 
+                        value={product.description} 
+                        onChange={handleChange}
+                        className={errors.description ? 'input-error' : ''}
+                    />
                     {errors.description && <span className="error-message">{errors.description}</span>}
                 </div>
                 <div className="form-group">
                     <label>Imagen del Producto *</label>
-                    <input type="file" name="images" onChange={handleChange} accept="image/*" className={errors.images ? 'input-error' : ''}/>
+                    <input 
+                        type="file" 
+                        name="images" 
+                        onChange={handleChange} 
+                        accept="image/*" 
+                        className={errors.images ? 'input-error' : ''}
+                    />
                     {errors.images && <span className="error-message">{errors.images}</span>}
                     <small className="file-hint">Formatos: JPG, PNG, GIF (Max. 5MB)</small>
                 </div>

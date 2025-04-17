@@ -50,15 +50,22 @@ h2 {
     border-radius: 5px;
 }
 
+.quantityContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
 .quantityButton {
-    padding: 8px 12px;
-    margin: 0 5px;
+    padding: 5px 10px;
+    margin: 0;
     cursor: pointer;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 1em;
+    font-size: 0.9em;
     transition: background-color 0.3s ease;
 }
 
@@ -67,9 +74,9 @@ h2 {
 }
 
 .quantity {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
 .actionButton {

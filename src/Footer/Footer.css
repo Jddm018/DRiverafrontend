@@ -1,60 +1,79 @@
-/* Estilos generales del Footer */
 .footer {
-    background-color: #1a1a1a; /* Color de fondo */
+    background-color: #1a1a1a;
     color: #fff;
-    padding: 40px 20px 20px; /* Padding superior de 40px para crear espacio */
+    padding: 40px 20px 20px;
     text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .footer-content {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
 }
 
 .footer-section {
-    margin: 10px;
+    margin: 10px 0;
 }
 
 .footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #f1f1f1;
+    border-bottom: 2px solid #3498db;
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
+/* Lista de enlaces horizontales */
 .footer-section ul {
     list-style: none;
     padding: 0;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
 
 .footer-section ul li {
-    margin: 5px 0;
+    display: inline;
 }
 
 .footer-section ul li a {
-    color: #fff;
+    color: #ddd;
     text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.2s;
+    position: relative;
+}
+
+.footer-section ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: #3498db;
+    transition: width 0.3s ease;
 }
 
 .footer-section ul li a:hover {
-    color: #3498db; /* Cambia el color al hacer hover */
+    color: #3498db;
 }
 
-/* Estilos para los íconos de redes sociales */
-.social-icons a {
-    color: #fff;
-    margin: 0 10px;
-    font-size: 1.5rem;
-    transition: color 0.3s ease;
+.footer-section ul li a:hover::after {
+    width: 100%;
 }
 
-.social-icons a:hover {
-    color: #3498db; /* Cambia el color al hacer hover */
-}
-
-/* Estilos para los derechos de autor */
+/* Derechos de autor */
 .footer-copy {
     margin-top: 20px;
     font-size: 0.9rem;
+    color: #aaa;
 }

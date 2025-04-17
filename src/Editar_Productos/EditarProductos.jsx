@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faTimes, faSpinner, faCheckCircle, faExclamationTriangle, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faTimes, faSpinner, faCheckCircle, faExclamationTriangle, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './EditarProductos.css';
 
 const EditarProducto = () => {
@@ -19,6 +19,7 @@ const EditarProducto = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [notification, setNotification] = useState({ show: false, message: '', type: '' });
     const [searchTerm, setSearchTerm] = useState('');
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Formatear números con separadores de miles
     const formatCurrency = (value) =>
@@ -63,6 +64,7 @@ const EditarProducto = () => {
             categoryId: product.categoryId.toString()
         });
         setErrors({});
+        setShowDeleteConfirm(false);
     };
 
     const handleChange = (e) => {
@@ -115,9 +117,6 @@ const EditarProducto = () => {
         formDataToSend.append('description', formData.description);
         if (formData.images) formDataToSend.append('uploadFile', formData.images);
 
-        // DEBUG: mostrar contenido de FormData
-        for (let [k, v] of formDataToSend.entries()) console.log(k, v);
-
         try {
             const res = await fetch(`http://localhost:8080/api/product/${selectedProduct.id}`, {
                 method: 'PUT',
@@ -125,7 +124,6 @@ const EditarProducto = () => {
                 body: formDataToSend
             });
             const data = await res.json();
-            console.log('Status:', res.status, 'Body:', data);
 
             if (!res.ok) throw new Error(data.message || 'Error al actualizar producto');
 
@@ -139,10 +137,44 @@ const EditarProducto = () => {
         }
     };
 
+    const handleDeleteProduct = async () => {
+        setIsSubmitting(true);
+        setNotification({ show: false, message: '', type: '' });
+
+        const token = getToken();
+        if (!token) { setIsSubmitting(false); return; }
+
+        try {
+            const res = await fetch(`http://localhost:8080/api/product/${selectedProduct.id}`, {
+                method: 'DELETE',
+                headers: { 
+                    'x-token': token,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.message || 'Error al eliminar el producto');
+            }
+
+            setNotification({ show: true, message: 'Producto eliminado exitosamente', type: 'success' });
+            setProducts(products.filter(p => p.id !== selectedProduct.id));
+            handleClearSelection();
+        } catch (err) {
+            console.error(err);
+            setNotification({ show: true, message: err.message || 'Error de servidor', type: 'error' });
+        } finally {
+            setIsSubmitting(false);
+            setShowDeleteConfirm(false);
+        }
+    };
+
     const handleClearSelection = () => {
         setSelectedProduct(null);
         setFormData({ name: '', title: '', description: '', price: '', images: null, categoryId: '' });
         setErrors({});
+        setShowDeleteConfirm(false);
     };
 
     return (
@@ -172,7 +204,7 @@ const EditarProducto = () => {
                                     <img src={`http://localhost:8080/uploads/products/${product.images}`} alt={product.name} className="product-thumbnail" />
                                     <div className="product-info">
                                         <span className="product-name">{product.name}</span>
-                                        <span className="product-price">${formatCurrency(product.price)} COP</span>
+                                        <span className="product-price">{formatCurrency(product.price)} COP</span>
                                     </div>
                                 </div>
                             </li>
@@ -181,50 +213,85 @@ const EditarProducto = () => {
                 </div>
                 <div className="form-container">
                     {selectedProduct ? (
-                        <form onSubmit={handleSubmit} className="producto-form">
-                            <div className="form-group">
-                                <label>Nombre del Producto *</label>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} className={errors.name ? 'input-error' : ''} />
-                                {errors.name && <span className="error-message">{errors.name}</span>}
-                            </div>
-                            <div className="form-group">
-                                <label>Título del Producto</label>
-                                <input type="text" name="title" value={formData.title} onChange={handleChange} />
-                            </div>
-                            <div className="form-group">
-                                <label>Precio (COP) *</label>
-                                <input type="text" name="price" value={formData.price} onChange={handleChange} className={errors.price ? 'input-error' : ''} />
-                                {errors.price && <span className="error-message">{errors.price}</span>}
-                            </div>
-                            <div className="form-group">
-                                <label>Categoría *</label>
-                                <select name="categoryId" value={formData.categoryId} onChange={handleChange} className={errors.categoryId ? 'input-error' : ''}>
-                                    <option value="">Seleccione una categoría</option>
-                                    {categories.map(cat => (
-                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                    ))}
-                                </select>
-                                {errors.categoryId && <span className="error-message">{errors.categoryId}</span>}
-                            </div>
-                            <div className="form-group">
-                                <label>Descripción *</label>
-                                <textarea name="description" value={formData.description} onChange={handleChange} className={errors.description ? 'input-error' : ''} />
-                                {errors.description && <span className="error-message">{errors.description}</span>}
-                            </div>
-                            <div className="form-group">
-                                <label>Nueva Imagen (Opcional)</label>
-                                <input type="file" name="images" onChange={handleChange} accept="image/*" />
-                                <small className="file-hint">Dejar en blanco para mantener la imagen actual: {selectedProduct.images}</small>
-                            </div>
-                            <div className="form-actions">
-                                <button type="submit" className="btn-primary" disabled={isSubmitting}>
-                                    {isSubmitting ? <><FontAwesomeIcon icon={faSpinner} spin /> Actualizando...</> : <><FontAwesomeIcon icon={faSave} /> Guardar Cambios</>}
-                                </button>
-                                <button type="button" className="btn-secondary" onClick={handleClearSelection} disabled={isSubmitting}>
-                                    <FontAwesomeIcon icon={faTimes} /> Cancelar
-                                </button>
-                            </div>
-                        </form>
+                        <>
+                            <form onSubmit={handleSubmit} className="producto-form">
+                                <div className="form-group">
+                                    <label>Nombre del Producto *</label>
+                                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={errors.name ? 'input-error' : ''} />
+                                    {errors.name && <span className="error-message">{errors.name}</span>}
+                                </div>
+                                <div className="form-group">
+                                    <label>Título del Producto</label>
+                                    <input type="text" name="title" value={formData.title} onChange={handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Precio (COP) *</label>
+                                    <input type="text" name="price" value={formData.price} onChange={handleChange} className={errors.price ? 'input-error' : ''} />
+                                    {errors.price && <span className="error-message">{errors.price}</span>}
+                                </div>
+                                <div className="form-group">
+                                    <label>Categoría *</label>
+                                    <select name="categoryId" value={formData.categoryId} onChange={handleChange} className={errors.categoryId ? 'input-error' : ''}>
+                                        <option value="">Seleccione una categoría</option>
+                                        {categories.map(cat => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    {errors.categoryId && <span className="error-message">{errors.categoryId}</span>}
+                                </div>
+                                <div className="form-group">
+                                    <label>Descripción *</label>
+                                    <textarea name="description" value={formData.description} onChange={handleChange} className={errors.description ? 'input-error' : ''} />
+                                    {errors.description && <span className="error-message">{errors.description}</span>}
+                                </div>
+                                <div className="form-group">
+                                    <label>Nueva Imagen (Opcional)</label>
+                                    <input type="file" name="images" onChange={handleChange} accept="image/*" />
+                                    <small className="file-hint">Dejar en blanco para mantener la imagen actual: {selectedProduct.images}</small>
+                                </div>
+                                <div className="form-actions">
+                                    <button type="submit" className="btn-primary" disabled={isSubmitting}>
+                                        {isSubmitting ? <><FontAwesomeIcon icon={faSpinner} spin /> Actualizando...</> : <><FontAwesomeIcon icon={faSave} /> Guardar Cambios</>}
+                                    </button>
+                                    <button type="button" className="btn-secondary" onClick={handleClearSelection} disabled={isSubmitting}>
+                                        <FontAwesomeIcon icon={faTimes} /> Cancelar
+                                    </button>
+                                    <button 
+                                        type="button" 
+                                        className="btn-delete" 
+                                        onClick={() => setShowDeleteConfirm(true)}
+                                        disabled={isSubmitting}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} /> Eliminar
+                                    </button>
+                                </div>
+                            </form>
+
+                            {showDeleteConfirm && (
+                                <div className="delete-confirmation">
+                                    <div className="delete-confirmation-content">
+                                        <h3>¿Estás seguro de eliminar este producto?</h3>
+                                        <p>Esta acción no se puede deshacer. El producto "{selectedProduct.name}" será eliminado permanentemente.</p>
+                                        <div className="delete-confirmation-actions">
+                                            <button 
+                                                className="btn-confirm-delete" 
+                                                onClick={handleDeleteProduct}
+                                                disabled={isSubmitting}
+                                            >
+                                                {isSubmitting ? <><FontAwesomeIcon icon={faSpinner} spin /> Eliminando...</> : 'Sí, Eliminar'}
+                                            </button>
+                                            <button 
+                                                className="btn-cancel-delete" 
+                                                onClick={() => setShowDeleteConfirm(false)}
+                                                disabled={isSubmitting}
+                                            >
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <div className="no-selection"><p>Selecciona un producto de la lista para editarlo</p></div>
                     )}
