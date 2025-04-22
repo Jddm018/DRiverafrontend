@@ -1,0 +1,292 @@
+/* Estilos completos para GenerarCompra component */
+
+/* ------------------------------------------------ */
+/* Contenedor principal: columna y centrado */
+.purchase-simulator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.purchase-simulator h2 {
+  width: 100%;
+  text-align: center;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* Wrapper para fila de productos + formulario */
+.purchase-content {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Ajustes de flex en cada sección */
+.purchase-content .product-selection {
+  flex: 1;
+  max-width: 350px;
+}
+
+.purchase-content .purchase-form {
+  flex: 2;
+}
+
+/* ------------------------------------------------ */
+/* Sección de productos con stock bajo */
+.product-selection {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-selection h3 {
+  color: #34495e;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.product-item:hover {
+  background: #f1f8fe;
+  transform: translateX(2px);
+}
+
+.product-item.selected {
+  border-left: 4px solid #3498db;
+  background: #eaf4fd;
+}
+
+.product-name {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.3rem;
+}
+
+.product-stock {
+  display: block;
+  font-size: 0.9rem;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.product-price {
+  display: block;
+  font-size: 0.9rem;
+  color: #27ae60;
+}
+
+/* ------------------------------------------------ */
+/* Sección de detalles de compra */
+.purchase-form {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-form h3 {
+  color: #34495e;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.stock-info {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.stock-value {
+  font-weight: 600;
+  color: #2980b9;
+}
+
+.stock-progress {
+  color: #f39c12;
+  font-weight: 500;
+  margin: 0.5rem 0;
+}
+
+.stock-complete {
+  color: #27ae60;
+  font-weight: 500;
+  margin: 0.5rem 0;
+}
+
+/* ------------------------------------------------ */
+/* Formulario y botones */
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 0.3rem;
+  color: #7f8c8d;
+  font-size: 0.8rem;
+}
+
+.purchase-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.purchase-button:hover {
+  background-color: #2980b9;
+}
+
+.purchase-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.cancel-button:hover {
+  background-color: #c0392b;
+}
+
+/* ------------------------------------------------ */
+/* Banner de notificaciones */
+.notification {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.notification.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.notification-close {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ------------------------------------------------ */
+/* Mensajes de error global */
+.purchase-simulator.error {
+  background: #fdecea;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.purchase-simulator.error h2 {
+  color: #e74c3c;
+}
+
+.purchase-simulator.error button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------ */
+/* Estado de carga */
+.purchase-simulator p {
+  color: #7f8c8d;
+  margin: 0.5rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .purchase-content {
+    flex-direction: column;
+  }
+  .product-selection {
+    max-width: 100%;
+  }
+}

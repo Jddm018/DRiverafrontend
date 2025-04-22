@@ -1,15 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faBoxOpen, 
-  faEdit, 
-  faUserShield, 
-  faTruck, 
-  faUserCog,
-  faUsers,
-  faUserEdit
-} from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faEdit, faUserShield, faTruck, faUserCog, faUsers, faUserEdit, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import './Admin.css';
 
 const Admin = () => {
@@ -78,6 +70,15 @@ const Admin = () => {
                     </div>
                     <h2 className="option-title">Editar Proveedor</h2>
                     <p className="option-description">Modifica proveedores existentes</p>
+                </div>
+                
+                {/* Generar Compra */}
+                <div className="menu-option-horizontal" onClick={() => navigate('/admin/generar_compra')}>
+                    <div className="option-icon">
+                        <FontAwesomeIcon icon={faShoppingCart} size="lg" />
+                    </div>
+                    <h2 className="option-title">Generar Compra</h2>
+                    <p className="option-description">Realiza compras a proveedores</p>
                 </div>
             </div>
         </div>

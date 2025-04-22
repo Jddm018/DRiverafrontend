@@ -82,6 +82,11 @@ const Navbar = () => {
                     </Link>
                 </li>
                 <li>
+                    <Link to="/recomendacion" className="nav-link" title="Recomendacion">
+                        Recomendacion
+                    </Link>
+                </li>
+                <li>
                     <Link to="/historial" className="nav-link" title="Historial de Compras">
                         <FontAwesomeIcon icon={faBookOpen} size="lg" />
                     </Link>

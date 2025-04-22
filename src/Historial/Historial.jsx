@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './Historial.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Historial = () => {
   const [compras, setCompras] = useState([]);
   const [expandedCompra, setExpandedCompra] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Botón de regreso
+  const handleBack = () => {
+    window.history.back();
+  };
 
   useEffect(() => {
     const fetchCompras = async () => {
@@ -66,6 +73,9 @@ const Historial = () => {
   if (loading) {
     return (
       <div className="contenedor-de-compras">
+        <button className="boton-redondo" onClick={handleBack}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </button>
         <h2 className="title">Historial de Compras</h2>
         <p>Cargando tu historial...</p>
       </div>
@@ -74,6 +84,10 @@ const Historial = () => {
 
   return (
     <div className="contenedor-de-compras">
+      <button className="boton-redondo" onClick={handleBack}>
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </button>
+
       <h2 className="title">Historial de Compras</h2>
 
       {error && <p className="error-message">{error}</p>}

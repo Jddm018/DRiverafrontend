@@ -15,19 +15,13 @@ body {
 h2 {
     font-weight: 600;
     color: #2c3e50;
-}
-
-h2 {
-    font-size: 2.6rem;
-    margin-bottom: 30px;
-}
-
-h2 {
     font-size: 1.8rem;
     margin-bottom: 15px;
 }
 
+/* Contenedor principal */
 .contenedor-de-compras {
+    position: relative;
     max-width: 100%;
     margin: 30px auto;
     padding: 40px;
@@ -35,8 +29,49 @@ h2 {
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    min-height: 50vh;
+    font-family: Arial, sans-serif;
 }
 
+/* Botón circular con ícono */
+.boton-redondo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.boton-redondo:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    background-color: white;
+}
+
+.boton-redondo svg {
+    color: #333;
+    font-size: 16px;
+}
+
+/* Título */
+.title {
+    margin-top: 80px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Información general */
 .compras-info {
     font-size: 1.2rem;
     color: #7f8c8d;
@@ -44,10 +79,19 @@ h2 {
     text-align: center;
 }
 
+/* Contenido del historial */
+.contenido-historial {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 /* Estilo para cada card */
 .card {
     width: 90%;
-    max-width: 1200px;  /* Limita el ancho máximo */
+    max-width: 1200px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -104,7 +148,7 @@ h2 {
     background-color: #2980b9;
 }
 
-/* Detalles de la compra (expandibles) */
+/* Detalles de la compra */
 .card-details {
     padding: 20px;
     background-color: #f9f9f9;
@@ -145,25 +189,30 @@ table tr:hover {
 /* Estilo cuando no hay compras */
 .no-compras {
     text-align: center;
-    color: #34495e; /* Gris oscuro */
+    color: #34495e;
     font-size: 1.2rem;
 }
+
 /* Responsividad */
 @media (max-width: 768px) {
     .contenedor-de-compras {
         padding: 20px;
         margin: 10px;
     }
+
     .card-header-info {
         flex-direction: column;
         align-items: flex-start;
-    }
+        }
+
     .card-header-info p {
         margin: 5px 0;
     }
+
     .btn-ver-detalles {
         width: 100%;
     }
+
     .card {
         width: 100%;
         margin-left: 0;
