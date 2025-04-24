@@ -13,6 +13,8 @@ const Footer = () => {
                         <li title='Productos'><a href="/productos">Productos</a></li>
                         <li title='Historial de Compras'><a href="/historial">Historial de Compras</a></li>
                         <li title='Iniciar Sesión'><a href="/login">Iniciar Sesión</a></li>
+                        <li title='Recomendacion'><a href="/recomendacion">Recomendacion</a></li>
+
                     </ul>
                 </div>
             </div>

@@ -151,7 +151,7 @@ const CrearProducto = () => {
 
         try {
             console.log('Enviando petición al servidor...');
-            const response = await fetch('http://localhost:8080/api/product/', {
+            const response = await fetch('http://localhost:8080/api/product', {
                 method: 'POST',
                 headers: {
                     'x-token': token
