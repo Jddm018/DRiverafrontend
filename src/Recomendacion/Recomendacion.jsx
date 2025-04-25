@@ -153,87 +153,93 @@ const Recomendacion = () => {
                     </div>
                     
                     <div className="form-fields">
-                        <div className="form-row">
-                            <label>ID Cliente</label>
-                            <input 
-                                type="text" 
-                                value={ID_Cliente} 
-                                onChange={(e) => setID_Cliente(e.target.value)} 
-                                className="form-input"
-                                placeholder="Ej: 1" 
-                            />
+                        {/* Primera fila con 3 campos */}
+                        <div className="form-row-group">
+                            <div className="form-row">
+                                <label>ID Cliente</label>
+                                <input 
+                                    type="text" 
+                                    value={ID_Cliente} 
+                                    onChange={(e) => setID_Cliente(e.target.value)} 
+                                    className="form-input"
+                                    placeholder="Ej: 1" 
+                                />
+                            </div>
+                            
+                            <div className="form-row">
+                                <label>Historial de Compras (unidades)</label>
+                                <input 
+                                    type="text" 
+                                    value={Historial_Compras} 
+                                    onChange={handleNumericChange(setHistorial_Compras)} 
+                                    className="form-input"
+                                    placeholder="Número total de compras"
+                                    inputMode="numeric"
+                                />
+                            </div>
+                            
+                            <div className="form-row">
+                                <label>Monto promedio (COP)</label>
+                                <input 
+                                    type="text" 
+                                    value={Monto_Promedio} 
+                                    onChange={handleMontoChange} 
+                                    className="form-input"
+                                    placeholder="Ej: 1.000.000"
+                                    inputMode="numeric"
+                                />
+                            </div>
                         </div>
                         
-                        <div className="form-row">
-                            <label>Historial de Compras (unidades)</label>
-                            <input 
-                                type="text" 
-                                value={Historial_Compras} 
-                                onChange={handleNumericChange(setHistorial_Compras)} 
-                                className="form-input"
-                                placeholder="Número total de compras"
-                                inputMode="numeric"
-                            />
-                        </div>
-                        
-                        <div className="form-row">
-                            <label>Monto promedio (COP)</label>
-                            <input 
-                                type="text" 
-                                value={Monto_Promedio} 
-                                onChange={handleMontoChange} 
-                                className="form-input"
-                                placeholder="Ej: 1.000.000"
-                                inputMode="numeric"
-                            />
-                        </div>
-                        
-                        <div className="form-row">
-                            <label>Frecuencia de compras (mensual)</label>
-                            <input 
-                                type="text" 
-                                value={Frecuencia_Compra} 
-                                onChange={handleNumericChange(setFrecuencia_Compra)} 
-                                className="form-input"
-                                placeholder="Veces al mes"
-                                inputMode="numeric"
-                            />
-                        </div>
-                        
-                        <div className="form-row">
-                            <label>Categoría favorita</label>
-                            <select 
-                                value={Categoria_Favorita} 
-                                onChange={handleCategoryChange} 
-                                className="form-select"
-                                required
-                            >
-                                <option value="">Seleccione una categoría</option>
-                                {categories.length > 0 ? (
-                                    categories.map((category) => (
-                                        <option 
-                                            key={category.id || category.categoryId || category.nombre} 
-                                            value={category.nombre || category.name || category.categoryName}
-                                        >
-                                            {category.nombre || category.name || category.categoryName || 'Categoría sin nombre'}
-                                        </option>
-                                    ))
-                                ) : (
-                                    <option value="" disabled>Cargando categorías...</option>
-                                )}
-                            </select>
-                        </div>
-                        
-                        <div className="form-row">
-                            <label>Días desde última compra</label>
-                            <input 
-                                type="text" 
-                                value={Ultima_Compra} 
-                                onChange={handleNumericChange(setUltima_Compra)} 
-                                className="form-input"
-                                placeholder="Número de días"
-                                inputMode="numeric"
-                            />
+                        {/* Segunda fila con otros 3 campos */}
+                        <div className="form-row-group">
+                            <div className="form-row">
+                                <label>Frecuencia de compras (mensual)</label>
+                                <input 
+                                    type="text" 
+                                    value={Frecuencia_Compra} 
+                                    onChange={handleNumericChange(setFrecuencia_Compra)} 
+                                    className="form-input"
+                                    placeholder="Veces al mes"
+                                    inputMode="numeric"
+                                />
+                            </div>
+                            
+                            <div className="form-row">
+                                <label>Categoría favorita</label>
+                                <select 
+                                    value={Categoria_Favorita} 
+                                    onChange={handleCategoryChange} 
+                                    className="form-select"
+                                    required
+                                >
+                                    <option value="">Seleccione una categoría</option>
+                                    {categories.length > 0 ? (
+                                        categories.map((category) => (
+                                            <option 
+                                                key={category.id || category.categoryId || category.nombre} 
+                                                value={category.nombre || category.name || category.categoryName}
+                                            >
+                                                {category.nombre || category.name || category.categoryName || 'Categoría sin nombre'}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option value="" disabled>Cargando categorías...</option>
+                                    )}
+                                </select>
+                            </div>
+                            
+                            <div className="form-row">
+                                <label>Días desde última compra</label>
+                                <input 
+                                    type="text" 
+                                    value={Ultima_Compra} 
+                                    onChange={handleNumericChange(setUltima_Compra)} 
+                                    className="form-input"
+                                    placeholder="Número de días"
+                                    inputMode="numeric"
+                                />
+                            </div>
                         </div>
                     </div>
                     
@@ -251,7 +257,7 @@ const Recomendacion = () => {
                         >
                             {loading ? (
                                 <>
-                                    <svg className="spinner" viewBox="0 0 50 50" style={{width: '20px', height: '20px', marginRight: '8px'}}>
+                                    <svg className="spinner" viewBox="0 0 50 50">
                                         <circle cx="25" cy="25" r="20" fill="none" stroke="white" strokeWidth="5"></circle>
                                     </svg>
                                     Generando...
@@ -279,7 +285,7 @@ const Recomendacion = () => {
                         </div>
                         <div className="data-item">
                             <p className="data-label">Monto promedio:</p>
-                            <p className="data-value">{((recommendation.Monto_Promedio || parseMontoToNumber(Monto_Promedio)) || 0).toLocaleString('es-CO')}COP</p>
+                            <p className="data-value">{((recommendation.Monto_Promedio || parseMontoToNumber(Monto_Promedio)) || 0).toLocaleString('es-CO')} COP</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Frecuencia:</p>

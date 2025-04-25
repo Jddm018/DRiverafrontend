@@ -8,9 +8,25 @@ import Logo_Rivera from "../img/Logo d1.png";
 const Navbar = () => {
     const [user, setUser] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const navigate = useNavigate();
 
     const ADMIN_ROLE = 2; // ID numérico del rol de administrador
+
+    // Efecto para manejar el scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            const isScrolled = window.scrollY > 10;
+            if (isScrolled !== scrolled) {
+                setScrolled(isScrolled);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [scrolled]);
 
     // Verifica si el usuario está logueado
     const isLoggedIn = () => {
@@ -37,7 +53,6 @@ const Navbar = () => {
                         setUser(data);
                         localStorage.setItem("user", JSON.stringify(data));
 
-                        
                         if (data.roleId === ADMIN_ROLE) {
                             setIsAdmin(true);
                         }
@@ -64,7 +79,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="navbar">
+        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="navbar-logo">
                 <Link to="/">
                     <img src={Logo_Rivera} alt="Logo Rivera" />
@@ -92,6 +107,7 @@ const Navbar = () => {
                     </Link>
                 </li>
                 {console.log("user",user)}
+
                 {/* Mostrar "Iniciar Sesión" si no está logueado */}
                 {!isLoggedIn() && (
                     <li>
