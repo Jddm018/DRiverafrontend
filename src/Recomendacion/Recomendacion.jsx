@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Recomendacion.css';
 
+// Mapeo exacto de categorías frontend -> backend
+const categoryMapping = {
+  'Estufas': 'Estufas',
+  'Freidoras': 'Freidoras',
+  'Barbacoas Y Planchas': 'Barbacoas_y_planchas',
+  'Campanas Y Extractores': 'Campanas_y_extractores',
+  'Otros Equipos': 'Otros_equipos'
+};
+
 const Recomendacion = () => {
     const [ID_Cliente, setID_Cliente] = useState('');
     const [Historial_Compras, setHistorial_Compras] = useState('');
@@ -58,22 +67,38 @@ const Recomendacion = () => {
         setCategoria_Favorita_ID(selectedCategory?.id || selectedCategory?.categoryId || '');
     };
 
-    const handleMontoChange = (e) => {
-        const value = e.target.value.replace(/\./g, '');
-        if (value === '' || /^[0-9\b]+$/.test(value)) {
-            const numberValue = value === '' ? '' : parseInt(value, 10);
-            setMonto_Promedio(value === '' ? '' : numberValue.toLocaleString('es-CO'));
-        }
+    // Función para formatear el monto con puntos como separadores de miles
+    const formatCurrency = (value) => {
+        // Eliminar todos los caracteres no numéricos
+        const numericValue = value.replace(/[^0-9]/g, '');
+        
+        // Formatear con puntos cada 3 dígitos
+        return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     };
 
-    const parseMontoToNumber = (monto) => {
-        return monto ? parseInt(monto.replace(/\./g, ''), 10) : 0;
+    const handleMontoChange = (e) => {
+        const inputValue = e.target.value;
+        
+        // Permitir campo vacío
+        if (inputValue === '') {
+            setMonto_Promedio('');
+            return;
+        }
+        
+        // Formatear el valor con puntos
+        const formattedValue = formatCurrency(inputValue);
+        setMonto_Promedio(formattedValue);
+    };
+
+    // Función para convertir el valor formateado a número (elimina los puntos)
+    const parseCurrency = (formattedValue) => {
+        return parseFloat(formattedValue.replace(/\./g, '')) || 0;
     };
 
     const handleNumericChange = (setter) => (e) => {
         const value = e.target.value;
-        if (value === '' || /^[0-9\b]+$/.test(value)) {
-            setter(value === '' ? '' : value);
+        if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
+            setter(value);
         }
     };
 
@@ -87,30 +112,42 @@ const Recomendacion = () => {
         setError('');
     
         try {
+            // Preparamos los datos exactamente como los espera el backend
+            const requestData = {
+                idCliente: parseInt(ID_Cliente) || 0,
+                historialCompras: parseInt(Historial_Compras) || 0,
+                montoPromedio: parseCurrency(Monto_Promedio),
+                frecuenciaCompra: parseFloat(Frecuencia_Compra) || 0,
+                categoriaFavorita: categoryMapping[Categoria_Favorita] || Categoria_Favorita.replace(/\s+/g, '_'),
+                ultimaCompra: parseInt(Ultima_Compra) || 0
+            };
+
+            console.log('Datos que se enviarán al servidor:', JSON.stringify(requestData, null, 2));
+
             const response = await fetch('http://localhost:8081/api/recomendacion/predecir', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({
-                    idCliente: ID_Cliente,
-                    historialCompras: Historial_Compras ? parseInt(Historial_Compras, 10) : 0,
-                    montoPromedio: Monto_Promedio ? parseMontoToNumber(Monto_Promedio) : 0,
-                    frecuenciaCompra: Frecuencia_Compra ? parseInt(Frecuencia_Compra, 10) : 0,
-                    categoriaFavorita: Categoria_Favorita,
-                    ultimaCompra: Ultima_Compra ? parseInt(Ultima_Compra, 10) : 0
-                })
+                body: JSON.stringify(requestData)
+            });
+
+            console.log('Respuesta del servidor:', {
+                status: response.status,
+                statusText: response.statusText
             });
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al generar la recomendación');
+                console.error('Detalles del error:', errorData);
+                throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
             }
 
             const data = await response.json();
             setRecommendation(data);
         } catch (err) {
+            console.error('Error en la petición:', err);
             setError(err.message || 'Error al generar la recomendación');
         } finally {
             setLoading(false);
@@ -149,11 +186,10 @@ const Recomendacion = () => {
                 <div className="recomendacion-card">
                     <div className="header-section">
                         <h1 className="recomendacion-title">Recomendación de Productos</h1>
-                        <p className="recomendacion-subtitle">Complete los datos del cliente para generar un análisis predicion</p>
+                        <p className="recomendacion-subtitle">Complete los datos del cliente para generar un análisis predictivo</p>
                     </div>
                     
                     <div className="form-fields">
-                        {/* Primera fila con 3 campos */}
                         <div className="form-row-group">
                             <div className="form-row">
                                 <label>ID Cliente</label>
@@ -191,7 +227,6 @@ const Recomendacion = () => {
                             </div>
                         </div>
                         
-                        {/* Segunda fila con otros 3 campos */}
                         <div className="form-row-group">
                             <div className="form-row">
                                 <label>Frecuencia de compras (mensual)</label>
@@ -200,8 +235,8 @@ const Recomendacion = () => {
                                     value={Frecuencia_Compra} 
                                     onChange={handleNumericChange(setFrecuencia_Compra)} 
                                     className="form-input"
-                                    placeholder="Veces al mes"
-                                    inputMode="numeric"
+                                    placeholder="Ej: 3.5"
+                                    inputMode="decimal"
                                 />
                             </div>
                             
@@ -268,8 +303,8 @@ const Recomendacion = () => {
                 </div>
             ) : (
                 <div className="result-card">
-                    <h1 className="result-title">Resultado de Prediccion:</h1>
-                    <p className="confidence">Confianza: {recommendation.confianza || 100}</p>
+                    <h1 className="result-title">Resultado de Predicción:</h1>
+                    <p className="confidence">Confianza: {recommendation.confianza || 100}%</p>
                     
                     <div className="divider"></div>
                     
@@ -277,32 +312,32 @@ const Recomendacion = () => {
                     <div className="data-grid">
                         <div className="data-item">
                             <p className="data-label">ID Cliente:</p>
-                            <p className="data-value">{recommendation.ID_Cliente || ID_Cliente}</p>
+                            <p className="data-value">{recommendation.idCliente || ID_Cliente}</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Compras totales:</p>
-                            <p className="data-value">{recommendation.Historial_Compras || (Historial_Compras || '0')}</p>
+                            <p className="data-value">{recommendation.historialCompras || (Historial_Compras || '0')}</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Monto promedio:</p>
-                            <p className="data-value">{((recommendation.Monto_Promedio || parseMontoToNumber(Monto_Promedio)) || 0).toLocaleString('es-CO')} COP</p>
+                            <p className="data-value">${(recommendation.montoPromedio || parseCurrency(Monto_Promedio) || 0).toLocaleString('es-CO')}</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Frecuencia:</p>
-                            <p className="data-value">{(recommendation.Frecuencia_Compra || (Frecuencia_Compra || '0'))}/mes</p>
+                            <p className="data-value">{(recommendation.frecuenciaCompra || (Frecuencia_Compra || '0'))}/mes</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Categoría favorita:</p>
-                            <p className="data-value">{recommendation.Categoria_Favorita || Categoria_Favorita}</p>
+                            <p className="data-value">{recommendation.categoriaFavorita || Categoria_Favorita}</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Última compra:</p>
-                            <p className="data-value">{(recommendation.Ultima_Compra || (Ultima_Compra || '0'))} días</p>
+                            <p className="data-value">{(recommendation.ultimaCompra || (Ultima_Compra || '0'))} días</p>
                         </div>
                     </div>
                     
                     <div className="recommendation-section">
-                        <h3 className="section-title">Es Usted Recomendable:</h3>
+                        <h3 className="section-title">Recomendación:</h3>
                         <p className="recommendation-text">
                             {recommendation.recomendacion || "No se pudo generar una recomendación específica."}
                         </p>
@@ -318,7 +353,7 @@ const Recomendacion = () => {
                             </button>
                         ) : (
                             <div className="alert-message">
-                                <p>🔍 Lo sentimos no muestra patrones de compra regulares.</p>
+                                <p>🔍 Lo sentimos, no muestra patrones de compra regulares.</p>
                             </div>
                         )}
                         
