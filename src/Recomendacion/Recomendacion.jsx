@@ -235,7 +235,7 @@ const Recomendacion = () => {
                                     value={Frecuencia_Compra} 
                                     onChange={handleNumericChange(setFrecuencia_Compra)} 
                                     className="form-input"
-                                    placeholder="Ej: 3.5"
+                                    placeholder="Ej: 3"
                                     inputMode="decimal"
                                 />
                             </div>
@@ -304,7 +304,7 @@ const Recomendacion = () => {
             ) : (
                 <div className="result-card">
                     <h1 className="result-title">Resultado de Predicción:</h1>
-                    <p className="confidence">Confianza: {recommendation.confianza || 100}%</p>
+                    <p className="confidence">Confianza: {recommendation.confianza || 100}</p>
                     
                     <div className="divider"></div>
                     
@@ -320,7 +320,7 @@ const Recomendacion = () => {
                         </div>
                         <div className="data-item">
                             <p className="data-label">Monto promedio:</p>
-                            <p className="data-value">${(recommendation.montoPromedio || parseCurrency(Monto_Promedio) || 0).toLocaleString('es-CO')}</p>
+                            <p className="data-value">{(recommendation.montoPromedio || parseCurrency(Monto_Promedio) || 0).toLocaleString('es-CO')}</p>
                         </div>
                         <div className="data-item">
                             <p className="data-label">Frecuencia:</p>
