@@ -74,6 +74,7 @@ const Navbar = () => {
         localStorage.removeItem('cart');
         localStorage.removeItem('user');
         localStorage.removeItem('paymentResponse');
+        localStorage.removeItem('clientId');
         navigate('/');
         setIsAdmin(false);
     };

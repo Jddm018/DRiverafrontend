@@ -24,6 +24,7 @@ import Fijar from './Fijar/Fijar.jsx';
 import EditarProveedor from './EditarProveedor/EditarProveedor.jsx';
 import GenerarCompra from './GenerarCompra/GenerarCompra.jsx';
 import Recomendacion from './Recomendacion/Recomendacion.jsx';
+import ProductRecom from './ProductRecom/ProductRecom.jsx';
 
 function App() {
     return (
@@ -55,6 +56,7 @@ function App() {
                         <Route path='/admin/editar_proveedor' element={<EditarProveedor />} />
                         <Route path='/admin/generar_compra' element={<GenerarCompra />} />
                         <Route path='/recomendacion' element={<Recomendacion />} />
+                        <Route path='/Productos_recom' element={<ProductRecom />} />
                     </Routes>
                 </div>
                 <Footer />

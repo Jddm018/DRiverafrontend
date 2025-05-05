@@ -38,9 +38,12 @@ const Login = () => {
             if (responseData.role) {
             localStorage.setItem("role", responseData.role);
             }
-
+            const clientId = responseData.user?.id ?? responseData.idCliente;
+            if (clientId) {
+                localStorage.setItem("clientId", clientId.toString());
+            }
             // Redirigir a /productos y refrescar la página
-            window.location.href = "/productos";
+            window.location.href = "/recomendacion";
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             setError("Error al iniciar sesión. Por favor, verifica tus credenciales.");
