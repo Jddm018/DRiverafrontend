@@ -148,7 +148,7 @@ const Recomendacion = () => {
     fetchClientAndRecommendation();
   }, [fetchClientAndRecommendation]);
 
-  // 5) Botón “Generar Recomendación” sólo re-dispara la misma función
+  // 5) Botón "Generar Recomendación" sólo re-dispara la misma función
   const handlePredict = () => {
     setLoading(true);
     setRecommendation(null);
@@ -162,11 +162,24 @@ const Recomendacion = () => {
   };
 
   const handleViewRecommendedProducts = () => {
-    if (Categoria_Favorita_ID) {
-      navigate(`/category/${Categoria_Favorita_ID}`);
-    } else {
-      setError('No se pudo determinar la categoría seleccionada');
-    }
+    // Prepara los productos con la estructura que espera ProductRecom
+    const formattedProducts = recommendedProducts.map(product => ({
+      id: product.id || Math.random().toString(36).substr(2, 9),
+      name: product.name || 'Producto sin nombre',
+      price: product.price || 0,
+      // *** Corrección: Usa product.categoryId y busca el nombre de la categoría si es necesario ***
+      category: categories.find(cat => cat.id === product.categoryId)?.nombre || 'sin categoría',
+      // *** Corrección: Accede a product.images y asegúrate de obtener la URL correcta ***
+      image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : (typeof product.images === 'string' ? product.images : '/default-product.png'),
+      createdAt: product.createdAt || new Date().toISOString()
+    }));
+
+    navigate('/productos_recom', {
+      state: {
+        initialProducts: formattedProducts,
+        showRecentDefault: true
+      }
+    });
   };
 
   return (

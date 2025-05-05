@@ -56,7 +56,7 @@ function App() {
                         <Route path='/admin/editar_proveedor' element={<EditarProveedor />} />
                         <Route path='/admin/generar_compra' element={<GenerarCompra />} />
                         <Route path='/recomendacion' element={<Recomendacion />} />
-                        <Route path='/Productos_recom' element={<ProductRecom />} />
+                        <Route path='/productos_recom' element={<ProductRecom />} />
                     </Routes>
                 </div>
                 <Footer />
