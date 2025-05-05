@@ -162,14 +162,11 @@ const Recomendacion = () => {
   };
 
   const handleViewRecommendedProducts = () => {
-    // Prepara los productos con la estructura que espera ProductRecom
     const formattedProducts = recommendedProducts.map(product => ({
       id: product.id || Math.random().toString(36).substr(2, 9),
       name: product.name || 'Producto sin nombre',
       price: product.price || 0,
-      // *** Corrección: Usa product.categoryId y busca el nombre de la categoría si es necesario ***
       category: categories.find(cat => cat.id === product.categoryId)?.nombre || 'sin categoría',
-      // *** Corrección: Accede a product.images y asegúrate de obtener la URL correcta ***
       image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : (typeof product.images === 'string' ? product.images : '/default-product.png'),
       createdAt: product.createdAt || new Date().toISOString()
     }));
@@ -180,6 +177,40 @@ const Recomendacion = () => {
         showRecentDefault: true
       }
     });
+  };
+
+  // Función para agrupar los campos en filas de 3
+  const renderFormFields = () => {
+    const fields = [
+      { label: 'ID Cliente', value: ID_Cliente },
+      { label: 'Historial de Compras (unidades)', value: Historial_Compras },
+      { label: 'Monto promedio (COP)', value: Monto_Promedio },
+      { label: 'Frecuencia de compras (mensual)', value: Frecuencia_Compra },
+      { label: 'Categoría favorita', value: Categoria_Favorita },
+      { label: 'Días desde última compra', value: Ultima_Compra }
+    ];
+
+    const rows = [];
+    for (let i = 0; i < fields.length; i += 3) {
+      const rowFields = fields.slice(i, i + 3);
+      rows.push(
+        <div key={`row-${i}`} className="form-row">
+          {rowFields.map((field, index) => (
+            <div key={field.label} className="form-field">
+              <label>{field.label}</label>
+              <input
+                type="text"
+                value={field.value}
+                disabled
+                className="form-input"
+              />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return rows;
   };
 
   return (
@@ -210,71 +241,7 @@ const Recomendacion = () => {
           )}
 
           <div className="form-fields">
-            {/* ID Cliente */}
-            <div className="form-row">
-              <label>ID Cliente</label>
-              <input
-                type="text"
-                value={ID_Cliente}
-                disabled
-                className="form-input"
-              />
-            </div>
-
-            {/* Historial */}
-            <div className="form-row">
-              <label>Historial de Compras (unidades)</label>
-              <input
-                type="text"
-                value={Historial_Compras}
-                disabled
-                className="form-input"
-              />
-            </div>
-
-            {/* Monto */}
-            <div className="form-row">
-              <label>Monto promedio (COP)</label>
-              <input
-                type="text"
-                value={Monto_Promedio}
-                disabled
-                className="form-input"
-              />
-            </div>
-
-            {/* Frecuencia */}
-            <div className="form-row">
-              <label>Frecuencia de compras (mensual)</label>
-              <input
-                type="text"
-                value={Frecuencia_Compra}
-                disabled
-                className="form-input"
-              />
-            </div>
-
-            {/* Categoría favorita */}
-            <div className="form-row">
-              <label>Categoría favorita</label>
-              <input
-                type="text"
-                value={Categoria_Favorita}
-                disabled
-                className="form-input"
-              />
-            </div>
-
-            {/* Última compra */}
-            <div className="form-row">
-              <label>Días desde última compra</label>
-              <input
-                type="text"
-                value={Ultima_Compra}
-                disabled
-                className="form-input"
-              />
-            </div>
+            {renderFormFields()}
           </div>
 
           {error && (
@@ -304,7 +271,7 @@ const Recomendacion = () => {
 
           {recommendedProducts.length > 0 && (
             <div className="product-recommendation">
-              <p>Productos Recomendados:</p>
+              <p>Productos De La Categoria Favorita:</p>
               {productsLoading ? (
                 <p>Cargando productos...</p>
               ) : (

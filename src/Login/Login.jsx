@@ -43,7 +43,7 @@ const Login = () => {
                 localStorage.setItem("clientId", clientId.toString());
             }
             // Redirigir a /productos y refrescar la página
-            window.location.href = "/recomendacion";
+            window.location.href = "/productos";
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             setError("Error al iniciar sesión. Por favor, verifica tus credenciales.");

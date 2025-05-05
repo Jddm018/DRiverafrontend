@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faDoorOpen, faUser, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faShoppingCart, 
+  faDoorOpen, 
+  faUser, 
+  faBookOpen,
+  faChartLine,
+  faUserCog
+} from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import Logo_Rivera from "../img/Logo d1.png";
 
@@ -99,8 +106,19 @@ const Navbar = () => {
                 </li>
                 <li>
                     <Link to="/recomendacion" className="nav-link" title="Recomendacion">
-                        Recomendacion
+                        Recomendados
                     </Link>
+                </li>
+                <li>
+                    <a 
+                        href="https://app.powerbi.com/view?r=eyJrIjoiNDgyN2M2ODctZDk0OC00YWEzLTk4NDMtM2QwNTlkMDExY2UxIiwidCI6IjlkMTJiZjNmLWU0ZjYtNDdhYi05MTJmLTFhMmYwZmM0OGFhNCIsImMiOjR9"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="nav-link" 
+                        title="Power BI"
+                    >
+                        <FontAwesomeIcon icon={faChartLine} size="lg" />
+                    </a>
                 </li>
                 <li>
                     <Link to="/historial" className="nav-link" title="Historial de Compras">
@@ -122,7 +140,7 @@ const Navbar = () => {
                 {isAdmin && (
                     <li>
                         <Link to="/admin" className="nav-link" title="Panel de Administrador">
-                            Panel de Admin
+                        <FontAwesomeIcon icon={faUserCog} size="lg" />
                         </Link>
                     </li>
                 )}
