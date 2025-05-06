@@ -45,6 +45,17 @@ const Productos = () => {
         fetchProductosPorCategoria();
     }, [categoryId]);
 
+    // Función para dividir los productos en grupos de 3
+    const chunkProducts = (products, size) => {
+        const chunked = [];
+        for (let i = 0; i < products.length; i += size) {
+            chunked.push(products.slice(i, i + size));
+        }
+        return chunked;
+    };
+
+    const productGroups = chunkProducts(productos, 3);
+
     if (loading) return <p>Cargando productos...</p>;
     if (error) return <p>{error}</p>;
 
@@ -56,21 +67,27 @@ const Productos = () => {
                 </button>
                 <h1>Productos en la categoría de {categoriaNombre}</h1>
             </div>
-            <div className="productos">
-                {productos.map((producto) => (
-                    <Link key={producto.id} to={`/product/${producto.id}`} className="producto-link">
-                        <div className="producto">
-                            <img
-                                src={`http://localhost:8080/uploads/products/${producto.images}`}
-                                alt={producto.title}
-                                className="producto-imagen"
-                            />
-                            <div className="producto-detalle">
-                                <h2 className="producto-titulo">{producto.name}</h2>
-                                <p className="producto-precio">{formatPrice(producto.price)}</p>
-                            </div>
-                        </div>
-                    </Link>
+            
+            {/* Contenedor principal de productos */}
+            <div className="productos-container">
+                {productGroups.map((group, groupIndex) => (
+                    <div key={groupIndex} className="product-row">
+                        {group.map((producto) => (
+                            <Link key={producto.id} to={`/product/${producto.id}`} className="producto-link">
+                                <div className="producto">
+                                    <img
+                                        src={`http://localhost:8080/uploads/products/${producto.images}`}
+                                        alt={producto.title}
+                                        className="producto-imagen"
+                                    />
+                                    <div className="producto-detalle">
+                                        <h2 className="producto-titulo">{producto.name}</h2>
+                                        <p className="producto-precio">{formatPrice(producto.price)}</p>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 ))}
             </div>
         </div>
