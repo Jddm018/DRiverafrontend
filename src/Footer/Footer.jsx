@@ -22,7 +22,7 @@ const Footer = () => {
 
             {/* Derechos de autor */}
             <div className="footer-copy">
-                <p>&copy; 2025 D Rivera s.a.s. Todos los derechos reservados.</p>
+                <p>&copy; 2025 DRivera s.a.s. Todos los derechos reservados.</p>
             </div>
         </footer>
     );

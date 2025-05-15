@@ -7,7 +7,9 @@ import {
   faUser, 
   faBookOpen,
   faChartLine,
-  faUserCog   
+  faUserCog,
+  faBars,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import Logo_Rivera from "../img/Logo d1.png";
@@ -16,6 +18,7 @@ const Navbar = () => {
     const [user, setUser] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     const ADMIN_ROLE = 2; // ID numérico del rol de administrador
@@ -84,6 +87,11 @@ const Navbar = () => {
         localStorage.removeItem('clientId');
         navigate('/');
         setIsAdmin(false);
+        setMobileMenuOpen(false);
+    };
+
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!mobileMenuOpen);
     };
 
     return (
@@ -93,24 +101,30 @@ const Navbar = () => {
                     <img src={Logo_Rivera} alt="Logo Rivera" />
                 </Link>
             </div>
-            <ul className="navbar-links">
+            
+            {/* Botón del menú hamburguesa para móviles */}
+            <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
+                <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} size="lg" />
+            </div>
+            
+            <ul className={`navbar-links ${mobileMenuOpen ? 'active' : ''}`}>
                 <li>
-                    <Link to="/Inicio" className="nav-link" title="Inicio">
+                    <Link to="/Inicio" className="nav-link" title="Inicio" onClick={() => setMobileMenuOpen(false)}>
                         Inicio
                     </Link>
                 </li>
                 <li>
-                    <Link to="/productos" className="nav-link" title="Productos">
+                    <Link to="/productos" className="nav-link" title="Productos" onClick={() => setMobileMenuOpen(false)}>
                         Productos
                     </Link>
                 </li>
                 <li>
-                    <Link to="/recomendacion" className="nav-link" title="Recomendacion">
+                    <Link to="/recomendacion" className="nav-link" title="Recomendacion" onClick={() => setMobileMenuOpen(false)}>
                         Recomendados
                     </Link>
                 </li>
                 <li>
-                    <Link to="/quienes_somos" className="nav-link" title="Quienes Somos">
+                    <Link to="/quienes_somos" className="nav-link" title="Quienes Somos" onClick={() => setMobileMenuOpen(false)}>
                         ¿Quienes Somos?
                     </Link>
                 </li>
@@ -121,21 +135,22 @@ const Navbar = () => {
                         rel="noopener noreferrer"
                         className="nav-link" 
                         title="Power BI"
+                        onClick={() => setMobileMenuOpen(false)}
                     >
                         <FontAwesomeIcon icon={faChartLine} size="lg" />
                     </a>
                 </li>
                 <li>
-                    <Link to="/historial" className="nav-link" title="Historial de Compras">
+                    <Link to="/historial" className="nav-link" title="Historial de Compras" onClick={() => setMobileMenuOpen(false)}>
                         <FontAwesomeIcon icon={faBookOpen} size="lg" />
                     </Link>
                 </li>
                 {console.log("user",user)}
-
+                
                 {/* Mostrar "Iniciar Sesión" si no está logueado */}
                 {!isLoggedIn() && (
                     <li>
-                        <Link to="/login" className="nav-link" title="Iniciar Sesión">
+                        <Link to="/login" className="nav-link" title="Iniciar Sesión" onClick={() => setMobileMenuOpen(false)}>
                             <FontAwesomeIcon icon={faUser} size="lg" />
                         </Link>
                     </li>
@@ -144,7 +159,7 @@ const Navbar = () => {
                 {/* Mostrar "Panel de Administrador" si es admin */}
                 {isAdmin && (
                     <li>
-                        <Link to="/admin" className="nav-link" title="Panel de Administrador">
+                        <Link to="/admin" className="nav-link" title="Panel de Administrador" onClick={() => setMobileMenuOpen(false)}>
                         <FontAwesomeIcon icon={faUserCog} size="lg" />
                         </Link>
                     </li>
@@ -152,7 +167,7 @@ const Navbar = () => {
 
                 {/* Mostrar "Carrito" */}
                 <li>
-                    <Link to="/cart" className="nav-link" title="Carrito de Compras">
+                    <Link to="/cart" className="nav-link" title="Carrito de Compras" onClick={() => setMobileMenuOpen(false)}>
                         <FontAwesomeIcon icon={faShoppingCart} size="lg" />
                     </Link>
                 </li>

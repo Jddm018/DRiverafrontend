@@ -75,6 +75,72 @@
     font-weight: 500;
 }
 
+/* Estilos para móviles */
+.mobile-menu-icon {
+    display: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1.5rem;
+}
+
+/* Media Queries para responsive */
+@media (max-width: 992px) {
+    .navbar-links li {
+        margin-left: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+    
+    .navbar-links {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background-color: #3498db;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 30px;
+        transition: left 0.3s ease;
+    }
+    
+    .navbar-links.active {
+        left: 0;
+    }
+    
+    .navbar-links li {
+        margin: 15px 0;
+    }
+    
+    .mobile-menu-icon {
+        display: block;
+    }
+    
+    .navbar-logo img {
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+    
+    .navbar-logo img {
+        height: 35px;
+    }
+    
+    .navbar-links {
+        top: 65px;
+        height: calc(100vh - 65px);
+    }
+}
+
 /* ============================================= */
 /* Estilos específicos para el modal de logout */
 /* (No afectan otros componentes) */

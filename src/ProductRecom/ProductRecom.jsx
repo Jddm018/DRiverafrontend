@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 import './ProductRecom.css';
 
 const ProductRecom = () => {
@@ -7,7 +7,17 @@ const ProductRecom = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortBy, setSortBy] = useState('recent');
-    const navigate = useNavigate(); // Hook para navegación
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Verifica si una fecha pertenece al mes y año actual
     const isCurrentMonth = (dateString) => {
@@ -32,6 +42,10 @@ const ProductRecom = () => {
         const filtered = products.filter(product => isCurrentMonth(product.createdAt));
         if (sortBy === 'recent') {
             return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        } else if (sortBy === 'price_asc') {
+            return filtered.sort((a, b) => a.price - b.price);
+        } else if (sortBy === 'price_desc') {
+            return filtered.sort((a, b) => b.price - a.price);
         }
         return filtered;
     };
@@ -47,12 +61,12 @@ const ProductRecom = () => {
                 }
 
                 const data = await response.json();
-                    setProducts(data.products);
-                    setLoading(false);
-                } catch (error) {
-                    console.error('Error fetching products:', error);
-                    setError(error.message);
-                    setLoading(false);
+                setProducts(data.products);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                setError(error.message);
+                setLoading(false);
             }
         };
 
@@ -96,47 +110,88 @@ const ProductRecom = () => {
                 </div>
             </header>
 
-            <div className="pt-table-wrapper">
-            <table className="pt-table">
-                <thead>
-                    <tr>
-                        <th className="pt-th pt-col-image">Imagen</th>
-                        <th className="pt-th">Nombre</th>
-                        <th className="pt-th pt-col-price">Precio</th>
-                        <th className="pt-th pt-col-stock">Disponibles</th>
-                        <th className="pt-th">Categoría</th>
-                        <th className="pt-th pt-col-actions">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
+            {isMobile ? (
+                <div className="pt-mobile-list">
                     {getSortedProducts().map((product) => (
-                        <tr key={product.id} className="pt-tr">
-                            <td className="pt-td">
-                                <div className="pt-image-container">
-                                    <img className="pt-product-image" src={`http://localhost:8080/uploads/products/${product.images[0]}`} alt={product.name} onError={(e) => {
-                                            e.target.src = 'https://via.placeholder.com/80x60?text=Imagen+no+disponible';
-                                        }}
-                                    />
+                        <div key={product.id} className="pt-mobile-card">
+                            <div className="pt-mobile-image-container">
+                                <img 
+                                    className="pt-mobile-product-image" 
+                                    src={`http://localhost:8080/uploads/products/${product.images[0]}`} 
+                                    alt={product.name} 
+                                    onError={(e) => {
+                                        e.target.src = 'https://via.placeholder.com/80x60?text=Imagen+no+disponible';
+                                    }}
+                                />
+                            </div>
+                            <div className="pt-mobile-details">
+                                <h3 className="pt-mobile-product-name">{product.name}</h3>
+                                <div className="pt-mobile-price-category">
+                                    <span className="pt-mobile-product-price">{formatPrice(product.price)}</span>
+                                    <span className="pt-mobile-product-category">{product.category.name}</span>
                                 </div>
-                                </td>
-                                <td className="pt-td pt-product-name">{product.name}</td>
-                                <td className="pt-td pt-product-price">{formatPrice(product.price)}</td>
-                                <td className="pt-td">
+                                <div className="pt-mobile-stock">
                                     <span className={`pt-stock-badge ${product.stock < 10 ? 'pt-low-stock' : ''}`}>
                                         {product.stock} unidades
                                     </span>
-                                </td>
-                                <td className="pt-td pt-product-category">{product.category.name}</td>
-                                <td className="pt-td">
-                                    <button className="pt-details-btn" onClick={() => handleViewDetails(product.id)} >
-                                        <span className="pt-btn-icon"></span> Ver Detalles
-                                    </button>
-                                </td>
+                                </div>
+                                <button 
+                                    className="pt-details-btn pt-mobile-btn" 
+                                    onClick={() => handleViewDetails(product.id)}
+                                >
+                                    Ver Detalles
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="pt-table-wrapper">
+                    <table className="pt-table">
+                        <thead>
+                            <tr>
+                                <th className="pt-th pt-col-image">Imagen</th>
+                                <th className="pt-th">Nombre</th>
+                                <th className="pt-th pt-col-price">Precio</th>
+                                <th className="pt-th pt-col-stock">Disponibles</th>
+                                <th className="pt-th">Categoría</th>
+                                <th className="pt-th pt-col-actions">Acciones</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {getSortedProducts().map((product) => (
+                                <tr key={product.id} className="pt-tr">
+                                    <td className="pt-td">
+                                        <div className="pt-image-container">
+                                            <img 
+                                                className="pt-product-image" 
+                                                src={`http://localhost:8080/uploads/products/${product.images[0]}`} 
+                                                alt={product.name} 
+                                                onError={(e) => {
+                                                    e.target.src = 'https://via.placeholder.com/80x60?text=Imagen+no+disponible';
+                                                }}
+                                            />
+                                        </div>
+                                    </td>
+                                    <td className="pt-td pt-product-name">{product.name}</td>
+                                    <td className="pt-td pt-product-price">{formatPrice(product.price)}</td>
+                                    <td className="pt-td">
+                                        <span className={`pt-stock-badge ${product.stock < 10 ? 'pt-low-stock' : ''}`}>
+                                            {product.stock} unidades
+                                        </span>
+                                    </td>
+                                    <td className="pt-td pt-product-category">{product.category.name}</td>
+                                    <td className="pt-td">
+                                        <button className="pt-details-btn" onClick={() => handleViewDetails(product.id)}>
+                                            <span className="pt-btn-icon"></span> Ver Detalles
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 };

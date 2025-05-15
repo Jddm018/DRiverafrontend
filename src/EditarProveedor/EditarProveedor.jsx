@@ -21,6 +21,18 @@ const EditarProveedor = () => {
     });
     const [saving, setSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [showList, setShowList] = useState(true);
+
+    // Detectar cambios en el tamaño de la pantalla
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Cargar lista de proveedores
     useEffect(() => {
@@ -61,6 +73,10 @@ const EditarProveedor = () => {
         });
         setError(null);
         setSuccessMessage(null);
+        
+        if (isMobile) {
+            setShowList(false);
+        }
     };
 
     // Manejar cambios en el formulario
@@ -111,6 +127,12 @@ const EditarProveedor = () => {
         }
     };
 
+    // Volver a la lista en móvil
+    const handleBackToList = () => {
+        setShowList(true);
+        setSelectedProvider(null);
+    };
+
     if (loading) {
         return (
             <div className="loading-container">
@@ -123,248 +145,282 @@ const EditarProveedor = () => {
     }
 
     return (
-        <div className="main-container">
-            <div className="edit-provider-container">
-                <div className="header-section">
-                    <h1 className="main-title">Editar Proveedor Existente</h1>
-                    <div className="search-container">
-                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+        <div className="ep-main-container">
+            <div className="ep-edit-provider-container">
+                <div className="ep-header-section">
+                    <h1 className="ep-main-title">Editar Proveedor Existente</h1>
+                    <div className="ep-search-container">
+                        <FontAwesomeIcon icon={faSearch} className="ep-search-icon" />
                         <input
                             type="text"
                             placeholder="Buscar proveedor..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
+                            className="ep-search-input"
                         />
                     </div>
                 </div>
 
-                <div className="content-wrapper">
+                <div className="ep-content-wrapper">
                     {/* Panel izquierdo - Lista de proveedores */}
-                    <div className="providers-list-section">
-                        <h2 className="section-title">Proveedores Disponibles</h2>
-                        <div className="providers-list-container">
-                            {filteredProviders.length === 0 ? (
-                            <div className="empty-state">
-                                {searchTerm ? 'No se encontraron resultados' : 'No hay proveedores registrados'}
+                    {(!isMobile || showList) && (
+                        <div className="ep-providers-list-section">
+                            <h2 className="ep-section-title">Proveedores Disponibles</h2>
+                            <div className="ep-providers-list-container">
+                                {filteredProviders.length === 0 ? (
+                                <div className="ep-empty-state">
+                                    {searchTerm ? 'No se encontraron resultados' : 'No hay proveedores registrados'}
+                                </div>
+                                ) : (
+                                    filteredProviders.map(provider => (
+                                        <div
+                                            key={provider.id}
+                                            className={`ep-provider-card ${selectedProvider?.id === provider.id ? 'active' : ''}`}
+                                            onClick={() => handleSelectProvider(provider)}
+                                        >
+                                            <div className="ep-provider-main-info">
+                                                <h3 className="ep-provider-name">{provider.name}</h3>
+                                                <p className="ep-provider-company">
+                                                    <FontAwesomeIcon icon={faBuilding} /> {provider.company}
+                                                </p>
+                                            </div>
+                                            <div className="ep-provider-secondary-info">
+                                                <p className="ep-product-export">
+                                                    <FontAwesomeIcon icon={faBox} /> {provider.productexport}
+                                                </p>
+                                                <button 
+                                                    className="ep-edit-btn"
+                                                    onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleSelectProvider(provider);
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon icon={faEdit} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
-                            ) : (
-                                filteredProviders.map(provider => (
-                                    <div
-                                        key={provider.id}
-                                        className={`provider-card ${selectedProvider?.id === provider.id ? 'active' : ''}`}
-                                        onClick={() => handleSelectProvider(provider)}
-                                    >
-                                        <div className="provider-main-info">
-                                            <h3 className="provider-name">{provider.name}</h3>
-                                            <p className="provider-company">
-                                                <FontAwesomeIcon icon={faBuilding} /> {provider.company}
-                                            </p>
-                                        </div>
-                                        <div className="provider-secondary-info">
-                                            <p className="product-export">
-                                                <FontAwesomeIcon icon={faBox} /> {provider.productexport}
-                                            </p>
-                                            <button 
-                                                className="edit-btn"
-                                                onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleSelectProvider(provider);
-                                                }}
-                                            >
-                                                <FontAwesomeIcon icon={faEdit} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
                         </div>
-                    </div>
+                    )}
 
                     {/* Panel derecho - Formulario de edición */}
-                    <div className="edit-form-section">
-                        {selectedProvider ? (
-                            <>
-                            <div className="form-header">
-                                <h2 className="form-title">Editar Información del Proveedor</h2>
-                                <p className="form-subtitle">Modifica los detalles del proveedor seleccionado</p>
-                            </div>
-
-                            {error && (
-                                <div className="alert-message error">
-                                    <FontAwesomeIcon icon={faExclamationCircle} />
-                                    <span>{error}</span>
-                                </div>
+                    {(!isMobile || !showList) && (
+                        <div className="ep-edit-form-section">
+                            {isMobile && (
+                                <button className="ep-back-button" onClick={handleBackToList}>
+                                    <FontAwesomeIcon icon={faTimes} /> Volver a la lista
+                                </button>
                             )}
                             
-                            {successMessage && (
-                                <div className="alert-message success">
-                                    <FontAwesomeIcon icon={faCheckCircle} />
-                                    <span>{successMessage}</span>
+                            {selectedProvider ? (
+                                <>
+                                <div className="ep-form-header">
+                                    <h2 className="ep-form-title">Editar Información del Proveedor</h2>
+                                    <p className="ep-form-subtitle">Modifica los detalles del proveedor seleccionado</p>
+                                </div>
+
+                                {error && (
+                                    <div className="ep-alert-message error">
+                                        <FontAwesomeIcon icon={faExclamationCircle} />
+                                        <span>{error}</span>
+                                    </div>
+                                )}
+                                
+                                {successMessage && (
+                                    <div className="ep-alert-message success">
+                                        <FontAwesomeIcon icon={faCheckCircle} />
+                                        <span>{successMessage}</span>
+                                    </div>
+                                )}
+
+                                <form onSubmit={handleSubmit} className="ep-provider-form">
+                                    <div className="ep-form-section ep-table-view">
+                                        <h3 className="ep-form-section-title">
+                                            <FontAwesomeIcon icon={faUser} /> Información Básica
+                                        </h3>
+                                        <table className="ep-form-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                    <th>Contacto</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div className="ep-form-group">
+                                                            <div className="ep-input-with-icon">
+                                                                <FontAwesomeIcon icon={faUser} />
+                                                                <input
+                                                                    type="text"
+                                                                    name="name"
+                                                                    value={formData.name}
+                                                                    onChange={handleChange}
+                                                                    required
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="ep-form-group">
+                                                            <div className="ep-input-with-icon">
+                                                                <FontAwesomeIcon icon={faBuilding} />
+                                                                <input
+                                                                    type="text"
+                                                                    name="company"
+                                                                    value={formData.company}
+                                                                    onChange={handleChange}
+                                                                    required
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="ep-form-group">
+                                                            <div className="ep-input-with-icon">
+                                                                <FontAwesomeIcon icon={faUser} />
+                                                                <input
+                                                                    type="text"
+                                                                    name="contact"
+                                                                    value={formData.contact}
+                                                                    onChange={handleChange}
+                                                                    required
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="ep-form-section ep-table-view">
+                                        <h3 className="ep-form-section-title">
+                                            <FontAwesomeIcon icon={faEnvelope} /> Información de Contacto
+                                        </h3>
+                                        <table className="ep-form-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Dirección</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div className="ep-form-group">
+                                                            <div className="ep-input-with-icon">
+                                                                <FontAwesomeIcon icon={faEnvelope} />
+                                                                <input
+                                                                    type="email"
+                                                                    name="email"
+                                                                    value={formData.email}
+                                                                    onChange={handleChange}
+                                                                    required
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="ep-form-group">
+                                                            <div className="ep-input-with-icon">
+                                                                <FontAwesomeIcon icon={faPhone} />
+                                                                <input
+                                                                    type="text"
+                                                                    name="phone"
+                                                                    value={formData.phone}
+                                                                    onChange={handleChange}
+                                                                    required
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="ep-form-group">
+                                                            <div className="ep-input-with-icon">
+                                                                <FontAwesomeIcon icon={faMapMarkerAlt} />
+                                                                <input
+                                                                    type="text"
+                                                                    name="address"
+                                                                    value={formData.address}
+                                                                    onChange={handleChange}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="ep-form-section">
+                                        <h3 className="ep-form-section-title">
+                                            <FontAwesomeIcon icon={faBox} /> Información Comercial
+                                        </h3>
+                                        <div className="ep-form-group">
+                                            <label className="ep-input-label">Producto de Exportación</label>
+                                            <div className="ep-input-with-icon">
+                                                <FontAwesomeIcon icon={faBox} />
+                                                <input
+                                                    type="text"
+                                                    name="productexport"
+                                                    value={formData.productexport}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="ep-form-group ep-switch-group">
+                                            <label className="ep-switch">
+                                                <input
+                                                    type="checkbox"
+                                                    name="state"
+                                                    checked={formData.state}
+                                                    onChange={handleChange}
+                                                />
+                                                <span className="ep-slider round"></span>
+                                            </label>
+                                            <span className="ep-switch-label">Proveedor activo</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="ep-form-actions">
+                                        <button
+                                            type="button"
+                                            className="ep-cancel-btn"
+                                            onClick={() => isMobile ? handleBackToList() : setSelectedProvider(null)}
+                                            disabled={saving}
+                                        >
+                                            <FontAwesomeIcon icon={faTimes} /> Cancelar
+                                        </button>
+                                        <button type="submit" className="ep-save-btn" disabled={saving}>
+                                            {saving ? (
+                                                <>
+                                                    <FontAwesomeIcon icon={faSpinner} spin /> Guardando...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <FontAwesomeIcon icon={faSave} /> Guardar Cambios
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
+                                </>
+                            ) : (
+                                <div className="ep-no-selection-prompt">
+                                    <FontAwesomeIcon icon={faEdit} className="ep-prompt-icon" />
+                                    <h3>Selecciona un proveedor</h3>
+                                    <p>Haz clic en un proveedor de la lista para editarlo</p>
                                 </div>
                             )}
-
-                            <form onSubmit={handleSubmit} className="provider-form">
-                                <div className="form-section">
-                                    <h3 className="form-section-title">
-                                        <FontAwesomeIcon icon={faUser} /> Información Básica
-                                    </h3>
-                                    <div className="form-grid">
-                                        <div className="form-group">
-                                            <label>Nombre</label>
-                                            <div className="input-with-icon">
-                                                <FontAwesomeIcon icon={faUser} />
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    value={formData.name}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label>Empresa</label>
-                                            <div className="input-with-icon">
-                                                <FontAwesomeIcon icon={faBuilding} />
-                                                <input
-                                                    type="text"
-                                                    name="company"
-                                                    value={formData.company}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label>Contacto</label>
-                                            <div className="input-with-icon">
-                                                <FontAwesomeIcon icon={faUser} />
-                                                <input
-                                                    type="text"
-                                                    name="contact"
-                                                    value={formData.contact}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="form-section">
-                                    <h3 className="form-section-title">
-                                        <FontAwesomeIcon icon={faEnvelope} /> Información de Contacto
-                                    </h3>
-                                    <div className="form-grid">
-                                        <div className="form-group">
-                                            <label>Email</label>
-                                            <div className="input-with-icon">
-                                                <FontAwesomeIcon icon={faEnvelope} />
-                                                <input
-                                                    type="email"
-                                                    name="email"
-                                                    value={formData.email}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label>Teléfono</label>
-                                            <div className="input-with-icon">
-                                                <FontAwesomeIcon icon={faPhone} />
-                                                <input
-                                                    type="text"
-                                                    name="phone"
-                                                    value={formData.phone}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label>Dirección</label>
-                                            <div className="input-with-icon">
-                                                <FontAwesomeIcon icon={faMapMarkerAlt} />
-                                                <input
-                                                    type="text"
-                                                    name="address"
-                                                    value={formData.address}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="form-section">
-                                    <h3 className="form-section-title">
-                                        <FontAwesomeIcon icon={faBox} /> Información Comercial
-                                    </h3>
-                                    <div className="form-group">
-                                        <label>Producto de Exportación</label>
-                                        <div className="input-with-icon">
-                                            <FontAwesomeIcon icon={faBox} />
-                                            <input
-                                                type="text"
-                                                name="productexport"
-                                                value={formData.productexport}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group switch-group">
-                                        <label className="switch">
-                                            <input
-                                                type="checkbox"
-                                                name="state"
-                                                checked={formData.state}
-                                                onChange={handleChange}
-                                            />
-                                            <span className="slider round"></span>
-                                        </label>
-                                        <span className="switch-label">Proveedor activo</span>
-                                    </div>
-                                </div>
-
-                                <div className="form-actions">
-                                    <button
-                                        type="button"
-                                        className="cancel-btn"
-                                        onClick={() => setSelectedProvider(null)}
-                                        disabled={saving}
-                                    >
-                                        <FontAwesomeIcon icon={faTimes} /> Cancelar
-                                    </button>
-                                    <button type="submit" className="save-btn" disabled={saving}>
-                                        {saving ? (
-                                            <>
-                                                <FontAwesomeIcon icon={faSpinner} spin /> Guardando...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FontAwesomeIcon icon={faSave} /> Guardar Cambios
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
-                            </form>
-                            </>
-                        ) : (
-                            <div className="no-selection-prompt">
-                                <FontAwesomeIcon icon={faEdit} className="prompt-icon" />
-                                <h3>Selecciona un proveedor</h3>
-                                <p>Haz clic en un proveedor de la lista para editarlo</p>
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
