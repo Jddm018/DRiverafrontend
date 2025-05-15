@@ -1,0 +1,268 @@
+/* Estilos encapsulados solo para este componente */
+.drivera-about-container {
+    --drivera-primary: #3498DB;
+    --drivera-primary-dark: #20618c;
+    --drivera-secondary: #2a4365;
+    --drivera-accent: #55cbf6;
+    --drivera-light: #f7fafc;
+    --drivera-dark: #2d3748;
+    --drivera-gray: #4a5568;
+    --drivera-light-gray: #e2e8f0;
+
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 8rem;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    position: relative;
+    overflow: hidden;
+    background-color: #f7fafc;
+}
+
+/* Encabezado */
+.drivera-about-header {
+    text-align: center;
+    margin-bottom: 6rem;
+    position: relative;
+}
+
+.drivera-header-content {
+    position: relative;
+    z-index: 2;
+}
+
+.drivera-about-header h1 {
+    font-size: 3rem;
+    color: var(--drivera-dark);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.drivera-brand {
+    color: var(--drivera-primary);
+    font-weight: 800;
+    position: relative;
+    display: inline-block;
+}
+
+.drivera-brand::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: rgba(28, 128, 159, 0.2);
+    z-index: -1;
+}
+
+.drivera-tagline {
+    font-size: 1.3rem;
+    color: var(--drivera-gray);
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.drivera-header-decoration {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(197, 48, 48, 0.1) 0%, rgba(255,255,255,0) 70%);
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* Secciones */
+.drivera-about-section {
+    --section-bg: #ffffff;
+    
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    margin-bottom: 3rem;
+    padding: 3rem;
+    border-radius: 16px;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: var(--section-bg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.drivera-about-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de imagen */
+.drivera-image-container {
+    flex: 1;
+    min-width: 350px;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.drivera-image-container.soft-shadow {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.drivera-image-full {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: all 0.5s ease;
+}
+
+.drivera-image-container:hover .drivera-image-full {
+    transform: scale(1.03);
+}
+
+/* Contenido de texto */
+.drivera-text-content {
+    flex: 1;
+    position: relative;
+}
+
+.drivera-section-title {
+    font-size: 2rem;
+    color: var(--drivera-secondary);
+    margin-bottom: 2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.drivera-title-number {
+    font-size: 1.5rem;
+    color: var(--drivera-primary);
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+.drivera-section-title span:last-child {
+    position: relative;
+}
+
+.drivera-section-title span:last-child::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--drivera-accent);
+}
+
+.drivera-section-text {
+    line-height: 1.8;
+    color: var(--drivera-gray);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.drivera-section-decoration {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(246, 173, 85, 0.1) 0%, rgba(255,255,255,0) 70%);
+    top: -20px;
+    right: -20px;
+    z-index: -1;
+}
+
+/* Elementos destacados */
+.drivera-text-content strong {
+    color: var(--drivera-secondary);
+    font-weight: 600;
+    position: relative;
+}
+
+.drivera-text-content strong::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--drivera-primary);
+    opacity: 0.3;
+}
+
+/* Responsive: Tablets y móviles */
+@media (max-width: 1024px) {
+    .drivera-about-section {
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .drivera-image-container {
+        min-width: 300px;
+        height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .drivera-about-container {
+        padding: 4rem 1.5rem 6rem;
+    }
+
+    .drivera-about-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .drivera-tagline {
+        font-size: 1.1rem;
+    }
+
+    .drivera-about-section {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+    }
+
+    .drivera-image-container {
+        width: 100%;
+        height: 300px;
+        min-width: auto;
+        order: -1;
+    }
+
+    .drivera-section-title {
+        font-size: 1.8rem;
+    }
+
+    .drivera-section-text {
+        font-size: 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes drivera-fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.drivera-about-section {
+    animation: drivera-fadeIn 0.6s ease forwards;
+}
+
+.drivera-about-section:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.drivera-about-section:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.drivera-about-section:nth-child(4) {
+    animation-delay: 0.3s;
+}

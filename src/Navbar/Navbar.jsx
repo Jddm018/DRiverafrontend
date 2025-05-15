@@ -7,7 +7,7 @@ import {
   faUser, 
   faBookOpen,
   faChartLine,
-  faUserCog
+  faUserCog   
 } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import Logo_Rivera from "../img/Logo d1.png";
@@ -107,6 +107,11 @@ const Navbar = () => {
                 <li>
                     <Link to="/recomendacion" className="nav-link" title="Recomendacion">
                         Recomendados
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/quienes_somos" className="nav-link" title="Quienes Somos">
+                        ¿Quienes Somos?
                     </Link>
                 </li>
                 <li>

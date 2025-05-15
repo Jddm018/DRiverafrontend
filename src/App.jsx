@@ -25,6 +25,7 @@ import EditarProveedor from './EditarProveedor/EditarProveedor.jsx';
 import GenerarCompra from './GenerarCompra/GenerarCompra.jsx';
 import Recomendacion from './Recomendacion/Recomendacion.jsx';
 import ProductRecom from './ProductRecom/ProductRecom.jsx';
+import QuienesSomos from './QuienesSomos/QuienesSomos.jsx';
 
 function App() {
     return (
@@ -57,6 +58,7 @@ function App() {
                         <Route path='/admin/generar_compra' element={<GenerarCompra />} />
                         <Route path='/recomendacion' element={<Recomendacion />} />
                         <Route path='/productos_recom' element={<ProductRecom />} />
+                        <Route path='/quienes_somos' element={<QuienesSomos />} />
                     </Routes>
                 </div>
                 <Footer />

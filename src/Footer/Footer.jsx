@@ -14,6 +14,7 @@ const Footer = () => {
                         <li title='Historial de Compras'><a href="/historial">Historial de Compras</a></li>
                         <li title='Iniciar Sesión'><a href="/login">Iniciar Sesión</a></li>
                         <li title='Recomendacion'><a href="/recomendacion">Recomendacion</a></li>
+                        <li title='¿Quienes Somos?'><a href="/quienes_somos">¿Quienes Somos?</a></li>
                         <li><a href="https://app.powerbi.com/view?r=eyJrIjoiNDgyN2M2ODctZDk0OC00YWEzLTk4NDMtM2QwNTlkMDExY2UxIiwidCI6IjlkMTJiZjNmLWU0ZjYtNDdhYi05MTJmLTFhMmYwZmM0OGFhNCIsImMiOjR9" target="_blank" rel="noopener noreferrer" className="nav-link" title="Power BI">Power BI</a></li>
                     </ul>
                 </div>
